@@ -8,6 +8,7 @@ public class TypingController : MonoBehaviour
 {
     public delegate void OnWordUpdate (string word);
     public static event OnWordUpdate WordUpdated;
+    public CameraController cameraController;
     private StringBuilder currWord;
     private string spell;
     private Dictionary<string, bool> spells = new Dictionary<string, bool> ();
@@ -18,7 +19,7 @@ public class TypingController : MonoBehaviour
         
         currWord = new StringBuilder ();
         // TODO update spell dictionary to read from somewhere else
-        spells.Add ("EXPAND DONG", true);
+        spells.Add ("expand dong", true);
     }
 
 
@@ -34,30 +35,36 @@ public class TypingController : MonoBehaviour
 
     void UpdateWord(char c) 
     {
-        // if backspace
-        if (c == '\b' && currWord.Length > 0) 
+        if (c == '\n' || c == '\r')
         {
-            // Remove last letter.
-            currWord.Remove (currWord.Length - 1, 1); 
+            if (currWord.Length > 0)
+            {
+                cameraController.StartZoom();
+                AttemptSpell();
+            }
         }
-        else 
+        else
         {
-            currWord.Append (c);
+            // if backspace, remove last letter
+            if (c == '\b' && currWord.Length > 0) 
+                currWord.Remove (currWord.Length - 1, 1); 
+            else
+                currWord.Append (c);
         }
         WordUpdated (currWord.ToString ());
-        //Debug.Log ("currword is " + currWord);
+    }
 
-        spell = CheckDictionary ();
-
+    private void AttemptSpell()
+    {
+        spell = CheckDictionary();
         if (spell != null) 
-        {
             FireSpell (spell);
-        }
+        currWord = new StringBuilder();
     }
 
     private string CheckDictionary() 
     {
-        string spell = currWord.ToString ();
+        string spell = currWord.ToString().ToLower();
         if (spells.TryGetValue (spell, out bool temp))
             return spell;
         return null;
