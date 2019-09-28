@@ -53,6 +53,7 @@ public class BoardManager : MonoBehaviour
     {
         boardSetup();
         listInit();
+        boardHolder.position = new Vector3(-1*(columns-1)/2, -1*(rows - 1)/2 , boardHolder.position.z);
 
 
     }
