@@ -7,6 +7,8 @@ using Photon.Pun;
 
 public class WizardPlayer : MovingObject
 {
+ 
+    public int maxHp = 3;
     public int hp = 3;
 
     private Photon.Pun.Demo.PunBasics.GameManager gameManager;
@@ -15,12 +17,19 @@ public class WizardPlayer : MovingObject
 
     private string playerName = "";
 
+    public GameObject healthBar;
+
+    private bool testingMode = false;
+
     // Start is called before the first frame update
     protected override void Start()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<Photon.Pun.Demo.PunBasics.GameManager>();
         photonView = gameObject.GetComponent<PhotonView>();
-        playerName = photonView.Owner.NickName;
+        if(!testingMode)
+        {
+            playerName = photonView.Owner.NickName;
+        }
         gameObject.name = playerName;
         base.Start();
     }
@@ -51,7 +60,7 @@ public class WizardPlayer : MovingObject
     // Update is called once per frame
     void Update()
     {
-        if(photonView.IsMine)
+        if(photonView.IsMine || testingMode)
         {
             int horizontal = 0;
             int vertical = 0;
@@ -64,6 +73,10 @@ public class WizardPlayer : MovingObject
                 horizontal = -1;
             if (Input.GetKeyDown(KeyCode.RightArrow))
                 horizontal = 1;
+            if(Input.GetKeyDown("a"))
+            {
+                loseHP(1);
+            }
 
             //horizontal = (int)Input.GetAxisRaw("Horizontal");
             //vertical = (int)Input.GetAxisRaw("Vertical");
@@ -83,9 +96,12 @@ public class WizardPlayer : MovingObject
     }
     public void loseHP(int loss)
     {
-        this.hp -= loss;
+        hp -= loss;
+        Vector3 healthBarReduced = new Vector3(healthBar.transform.localScale.x * hp/maxHp, 1, 1);
+        healthBar.transform.localScale = healthBarReduced;
         CheckIfDead();
     }
+
     protected override void OnCantMove<T>(T component)
     {
         
