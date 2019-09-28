@@ -41,12 +41,12 @@ public abstract class MovingObject : MonoBehaviour
             hit = Physics2D.Linecast(start, end, blockingLayer);
             boxCollider.enabled = true;
             
-        if (!isMoving)
+        if (hit.transform == null)
         {
-            isMoving = true;
-            Debug.Log("isMoving");
-            if (hit.transform == null)
+            if (!isMoving)
             {
+                isMoving = true;
+                Debug.Log("isMoving");
                 //transform.position = end;
                 //return true;
 

@@ -107,7 +107,7 @@ Transform:
   m_GameObject: {fileID: 4182491543153801881}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 0.9999613, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2294692919425360011}
   m_RootOrder: 0
@@ -314,7 +314,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   ObservedComponents:
   - {fileID: 4149858460684383359}
-  viewIdField: 0
+  viewIdField: 1
   InstantiationId: 1
   isRuntimeInstantiated: 0
 --- !u!114 &4149858460684383359
@@ -348,4 +348,6 @@ MonoBehaviour:
   blockingLayer:
     serializedVersion: 2
     m_Bits: 1024
+  maxHp: 3
   hp: 3
+  healthBar: {fileID: 4182491543153801881}
