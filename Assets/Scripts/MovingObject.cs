@@ -2,14 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using Photon;
+using Photon.Pun;
+
 public abstract class MovingObject : MonoBehaviour
 {
-    public float moveTime = 0.1f;
+    public float moveTime = 1f;
     public LayerMask blockingLayer;
 
     private BoxCollider2D boxCollider;
     private Rigidbody2D rb2D;
     private float inverseMoveTime;
+
+    private bool isMoving;
 
     
     // Start is called before the first frame update
@@ -18,30 +23,48 @@ public abstract class MovingObject : MonoBehaviour
         boxCollider = GetComponent<BoxCollider2D>();
         rb2D = GetComponent<Rigidbody2D>();
         inverseMoveTime = 1f / moveTime;
+        isMoving = false;
 
 
     }
 
     protected bool Move (int xDir, int yDir, out RaycastHit2D hit)
     {
-        Vector2 start = transform.position;
-        Vector2 end = start + new Vector2(xDir, yDir);
+       
+            
+            Vector2 start = transform.position;
+            Vector2 end = start + new Vector2(xDir, yDir);
+            Debug.Log(start);
+            Debug.Log(end);
 
-        boxCollider.enabled = false;
-        hit = Physics2D.Linecast(start, end, blockingLayer);
-        boxCollider.enabled = true;
-
-        if (hit.transform == null)
+            boxCollider.enabled = false;
+            hit = Physics2D.Linecast(start, end, blockingLayer);
+            boxCollider.enabled = true;
+            
+        if (!isMoving)
         {
-            StartCoroutine(SmoothMovement(end));
-            return true;
+            isMoving = true;
+            Debug.Log("isMoving");
+            if (hit.transform == null)
+            {
+                //transform.position = end;
+                //return true;
+
+                StartCoroutine(SmoothMovement(end));
+                return true;
+            }
+
+
+            return false;
         }
+        Debug.Log("----");
         return false;
+    
+
 
     }
 
-    protected virtual void AttemptMove <T> (int xDir, int yDir)
-        where T : Component
+    protected virtual void AttemptMove (int xDir, int yDir)
     {
         RaycastHit2D hit;
         bool canMove = Move(xDir, yDir, out hit);
@@ -51,10 +74,10 @@ public abstract class MovingObject : MonoBehaviour
             return;
         }
 
-        T hitComponent = hit.transform.GetComponent<T>();
+        //T hitComponent = hit.transform.GetComponent<T>();
 
-        if (!canMove && hitComponent != null)
-            OnCantMove(hitComponent);
+        //if (!canMove && hitComponent != null)
+        //    OnCantMove(hitComponent);
     }
     protected IEnumerator SmoothMovement(Vector3 end)
     {
@@ -67,6 +90,7 @@ public abstract class MovingObject : MonoBehaviour
             sqrRemainingDistance = (transform.position - end).sqrMagnitude;
             yield return null;
         }
+        isMoving = false;
     }
 
     protected abstract void OnCantMove<T>(T component)
