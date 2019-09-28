@@ -45,7 +45,7 @@ namespace Photon.Pun.Demo.PunBasics
         private Text feedbackText;
 
         [SerializeField]
-        private byte maxPlayersPerRoom = 2;
+        private byte maxPlayersPerRoom = 4;
 
         bool isConnecting;
 
@@ -59,6 +59,8 @@ namespace Photon.Pun.Demo.PunBasics
         [Space(5)]
         public Text playerStatus;
         public Text connectionStatus;
+        public Text numberOfPlayers;
+
 
         [Space(5)]
         public GameObject roomJoinUI;
@@ -66,7 +68,7 @@ namespace Photon.Pun.Demo.PunBasics
         public GameObject buttonJoinRoom;
 
 
-        private bool testingMode = true;
+        private bool testingMode = false;
 
         string playerName = "";
         string roomName = "";
@@ -137,14 +139,16 @@ namespace Photon.Pun.Demo.PunBasics
 
         public void LoadArena()
         {
-            if(PhotonNetwork.CurrentRoom.PlayerCount > 1)
-            {
-                PhotonNetwork.LoadLevel("MainGame");
-            }
-            else
-            {
-                playerStatus.text = "Minimum 2 Players required to Load Arena!";
-            }
+            PhotonNetwork.LoadLevel("MainGame");
+
+            // if(PhotonNetwork.CurrentRoom.PlayerCount > 1)
+            // {
+            //     PhotonNetwork.LoadLevel("MainGame");
+            // }
+            // else
+            // {
+            //     playerStatus.text = "Minimum 2 Players required to Load Arena!";
+            // }
         }
 
         // Photon Methods
@@ -171,12 +175,29 @@ namespace Photon.Pun.Demo.PunBasics
             {
                 buttonLoadArena.SetActive(true);
                 buttonJoinRoom.SetActive(false);
-                playerStatus.text = "You are Lobby Leader";
+                UpdatePlayerCount();
+
             }
             else
             {
                 playerStatus.text = "Connected to Lobby";
+                UpdatePlayerCount();
             }
+        }
+
+        public override void OnPlayerEnteredRoom(Player newPlayer)
+        {
+            UpdatePlayerCount();
+        }
+        
+        public override void OnPlayerLeftRoom(Player other)
+        {
+            UpdatePlayerCount();
+        }
+
+        private void UpdatePlayerCount()
+        {
+            numberOfPlayers.text = "Number of Players: " + PhotonNetwork.PlayerList.Length;
         }
     }
 }

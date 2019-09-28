@@ -30,6 +30,7 @@
 
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 using Photon.Realtime;
 
@@ -37,19 +38,15 @@ namespace Photon.Pun.Demo.PunBasics
 {
     public class GameManager : MonoBehaviourPunCallbacks
     {
-        // public GameObject winnerUI;
-
         public GameObject player1SpawnPosition;
         public GameObject player2SpawnPosition;
 
-        // public GameObject ballSpawnTransform;
-
-        // private GameObject ball;
 
         private GameObject player;
-
         private BoardManager boardScript;
+        private int playerNumber;
 
+        private Vector3[] spawnPositions;
 
         // Start Method
         void Start()
@@ -62,16 +59,18 @@ namespace Photon.Pun.Demo.PunBasics
 
             if (PlayerManager.LocalPlayerInstance == null)
             {
-                if (PhotonNetwork.IsMasterClient)
-                {
-                    Debug.Log("Instantiating Player 1");
+                spawnPositions = new Vector3[] { new Vector3(0, 0, 0), new Vector3(0, 9, 0), new Vector3(0, 0, 9), new Vector3(0, 9, 9)};
 
-                    player = PhotonNetwork.Instantiate("Player", player1SpawnPosition.transform.position, player1SpawnPosition.transform.rotation, 0);
-                }
-                else
+                for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
                 {
-                    player = PhotonNetwork.Instantiate("Player", player2SpawnPosition.transform.position, player2SpawnPosition.transform.rotation, 0);
+                    if(PhotonNetwork.PlayerList[i].NickName == PhotonNetwork.NickName)
+                    {
+                        playerNumber = i;
+                        break;
+                    }
                 }
+
+                player = PhotonNetwork.Instantiate("Player", spawnPositions[playerNumber], player1SpawnPosition.transform.rotation, 0);
             }
         }
 
@@ -111,5 +110,12 @@ namespace Photon.Pun.Demo.PunBasics
         {
             Application.Quit();
         }
+
+        public void isDead()
+        {
+            Debug.Log("I am Dead");
+        }
+
+       
     }
 }
