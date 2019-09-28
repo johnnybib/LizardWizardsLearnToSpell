@@ -32,6 +32,4 @@ MonoBehaviour:
   - DestroySpaceship
   - Fire
   - RespawnSpaceship
-  - UpdatePlayerCount
-  - UpdateNumberOfPlayersAlive
   DisableAutoOpenWizard: 1
