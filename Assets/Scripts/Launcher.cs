@@ -96,6 +96,7 @@ namespace Photon.Pun.Demo.PunBasics
             roomName = name;
         }
 
+
         // Tutorial Methods
         void ConnectToPhoton()
         {
@@ -108,6 +109,8 @@ namespace Photon.Pun.Demo.PunBasics
         {
             if (PhotonNetwork.IsConnected)
             {
+                playerName = playerNameField.text;
+                roomName = roomNameField.text;
                 PhotonNetwork.LocalPlayer.NickName = playerName;
                 Debug.Log("PhotonNetwork.IsConnected! | Trying to Create/Join Room " + roomNameField.text);
                 RoomOptions roomOptions = new RoomOptions();
@@ -120,7 +123,7 @@ namespace Photon.Pun.Demo.PunBasics
         {
             if(PhotonNetwork.CurrentRoom.PlayerCount > 1)
             {
-                PhotonNetwork.LoadLevel("MainArena");
+                PhotonNetwork.LoadLevel("MainGame");
             }
             else
             {

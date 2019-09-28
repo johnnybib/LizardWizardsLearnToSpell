@@ -49,12 +49,68 @@ namespace Photon.Pun.Demo.PunBasics
         private GameObject player2;
 
         // Start Method
+        void Start()
+        {
+            if(!PhotonNetwork.IsConnected)
+            {
+                SceneManager.LoadScene("Launcher");
+                return;
+            }
+
+            if(PlayerManager.LocalPlayerInstance == null)
+            {
+                if(PhotonNetwork.IsMasterClient)
+                {
+
+                    //Instantiate master client objects (they are the first person to join so they make all of the assets)
+                    Debug.Log("Instantiating Player 1");
+
+                    player1 = PhotonNetwork.Instantiate("Car",
+                        player1SpawnPosition.transform.position,
+                        player1SpawnPosition.transform.rotation, 0);
+
+                    ball = PhotonNetwork.Instantiate("Ball", 
+                        ballSpawnTransform.transform.position, 
+                        ballSpawnTransform.transform.rotation, 0);
+
+                    ball.name = "Ball";
+                }
+                else
+                {
+                    player2 = PhotonNetwork.Instantiate("Car", 
+                        player2SpawnPosition.transform.position, 
+                        player2SpawnPosition.transform.rotation, 0);
+                }
+            }
+
+
+        }
       
         // Update Method
+        void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                Application.Quit();
+            }
+        }
 
         // Photon Methods
+        public override void OnPlayerLeftRoom(Player otherPlayer)
+        {
+            Debug.Log("OnPlayerLeftRoom() " + otherPlayer.NickName); // seen when other disconnects
+            if (PhotonNetwork.IsMasterClient)
+            {
+                PhotonNetwork.LoadLevel("Launcher");
+            }
+        }
 
         //Helper Methods
+        public void QuitRoom()
+        {
+            Application.Quit();
+        }
+
 
     }
 }
