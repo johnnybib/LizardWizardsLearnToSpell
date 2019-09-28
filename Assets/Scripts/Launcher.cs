@@ -80,17 +80,12 @@ namespace Photon.Pun.Demo.PunBasics
             roomJoinUI.SetActive(false);
             buttonLoadArena.SetActive(false);
 
-            if(testingMode)
+            ConnectToPhoton();
+            
+            if (PhotonNetwork.IsConnected && testingMode)
             {
                 playerName = "Jimmy";
                 roomName = "test";
-            }
-            
-
-            ConnectToPhoton();
-
-            if (PhotonNetwork.IsConnected)
-            {
                 PhotonNetwork.LocalPlayer.NickName = playerName;
                 Debug.Log("PhotonNetwork.IsConnected! | Trying to Create/Join Room " + roomNameField.text);
                 RoomOptions roomOptions = new RoomOptions();

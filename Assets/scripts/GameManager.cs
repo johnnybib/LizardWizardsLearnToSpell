@@ -45,8 +45,8 @@ namespace Photon.Pun.Demo.PunBasics
         // public GameObject ballSpawnTransform;
 
         // private GameObject ball;
-        private GameObject player1;
-        private GameObject player2;
+
+        private GameObject player;
 
         private BoardManager boardScript;
 
@@ -54,7 +54,7 @@ namespace Photon.Pun.Demo.PunBasics
         // Start Method
         void Start()
         {
-            if (!PhotonNetwork.IsConnected) // 1
+            if (!PhotonNetwork.IsConnected)
             {
                 SceneManager.LoadScene("Launcher");
                 return;
@@ -62,15 +62,15 @@ namespace Photon.Pun.Demo.PunBasics
 
             if (PlayerManager.LocalPlayerInstance == null)
             {
-                if (PhotonNetwork.IsMasterClient) // 2
+                if (PhotonNetwork.IsMasterClient)
                 {
                     Debug.Log("Instantiating Player 1");
 
-                    player1 = PhotonNetwork.Instantiate("Player", player1SpawnPosition.transform.position, player1SpawnPosition.transform.rotation, 0);
+                    player = PhotonNetwork.Instantiate("Player", player1SpawnPosition.transform.position, player1SpawnPosition.transform.rotation, 0);
                 }
-                else // 5
+                else
                 {
-                    player2 = PhotonNetwork.Instantiate("Player", player2SpawnPosition.transform.position, player2SpawnPosition.transform.rotation, 0);
+                    player = PhotonNetwork.Instantiate("Player", player2SpawnPosition.transform.position, player2SpawnPosition.transform.rotation, 0);
                 }
             }
         }
@@ -78,7 +78,7 @@ namespace Photon.Pun.Demo.PunBasics
         // Update Method
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Escape)) //1
+            if (Input.GetKeyDown(KeyCode.Escape))
             {
                 Application.Quit();
             }
