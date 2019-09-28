@@ -7,12 +7,14 @@ using Photon.Pun;
 
 public abstract class MovingObject : MonoBehaviour
 {
-    public float moveTime = 0.01f;
+    public float moveTime = 1f;
     public LayerMask blockingLayer;
 
     private BoxCollider2D boxCollider;
     private Rigidbody2D rb2D;
     private float inverseMoveTime;
+
+    private bool isMoving;
 
     
     // Start is called before the first frame update
@@ -21,34 +23,44 @@ public abstract class MovingObject : MonoBehaviour
         boxCollider = GetComponent<BoxCollider2D>();
         rb2D = GetComponent<Rigidbody2D>();
         inverseMoveTime = 1f / moveTime;
+        isMoving = false;
 
 
     }
 
     protected bool Move (int xDir, int yDir, out RaycastHit2D hit)
     {
-        
-    
-        Vector2 start = transform.position;
-        Vector2 end = start + new Vector2(xDir, yDir);
-        Debug.Log(start);
-        Debug.Log(end);
-
-        boxCollider.enabled = false;
-        hit = Physics2D.Linecast(start, end, blockingLayer);
-        boxCollider.enabled = true;
-        Debug.Log("----");
-        if (hit.transform == null)
-        {
-            transform.position = end;
-            return true;
+       
             
-            //StartCoroutine(SmoothMovement(end));
-            //return true;
-        }
+            Vector2 start = transform.position;
+            Vector2 end = start + new Vector2(xDir, yDir);
+            Debug.Log(start);
+            Debug.Log(end);
 
-        
+            boxCollider.enabled = false;
+            hit = Physics2D.Linecast(start, end, blockingLayer);
+            boxCollider.enabled = true;
+            
+        if (!isMoving)
+        {
+            isMoving = true;
+            Debug.Log("isMoving");
+            if (hit.transform == null)
+            {
+                //transform.position = end;
+                //return true;
+
+                StartCoroutine(SmoothMovement(end));
+                return true;
+            }
+
+
+            return false;
+        }
+        Debug.Log("----");
         return false;
+    
+
 
     }
 
@@ -69,17 +81,16 @@ public abstract class MovingObject : MonoBehaviour
     }
     protected IEnumerator SmoothMovement(Vector3 end)
     {
-        //float sqrRemainingDistance = (transform.position - end).sqrMagnitude;
+        float sqrRemainingDistance = (transform.position - end).sqrMagnitude;
 
-        //while (sqrRemainingDistance > float.Epsilon)
-        //{
-        //    Vector3 newPosition = Vector3.MoveTowards(rb2D.position, end, inverseMoveTime * Time.deltaTime);
-        //    rb2D.MovePosition(newPosition);
-        //    sqrRemainingDistance = (transform.position - end).sqrMagnitude;
-        //    yield return null;
-        //}
-        yield return null;
-
+        while (sqrRemainingDistance > float.Epsilon)
+        {
+            Vector3 newPosition = Vector3.MoveTowards(rb2D.position, end, inverseMoveTime * Time.deltaTime);
+            rb2D.MovePosition(newPosition);
+            sqrRemainingDistance = (transform.position - end).sqrMagnitude;
+            yield return null;
+        }
+        isMoving = false;
     }
 
     protected abstract void OnCantMove<T>(T component)
