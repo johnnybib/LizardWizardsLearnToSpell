@@ -323,7 +323,7 @@ MonoBehaviour:
   columns: 10
   rows: 10
   floorTiles:
-  - {fileID: 726748917604433359, guid: 603ce5926a5a48e418500ee7a8cf6c60, type: 3}
+  - {fileID: 726748917604433359, guid: da2ba4ebf3cb37de59529f6e5765b19b, type: 3}
   - {fileID: 2767467805265057050, guid: 16507a0a0b97a424bbccd41b7c60b4c3, type: 3}
   - {fileID: 5505199962596787662, guid: efaf981507acb734da7d44654bc3dd63, type: 3}
   - {fileID: 7163410644991446042, guid: 953ebd024e64f0847ab33dd61d0b55b9, type: 3}
