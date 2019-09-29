@@ -74,7 +74,7 @@ namespace Photon.Pun.Demo.PunBasics
 
                 numberOfPlayers = PhotonNetwork.PlayerList.Length;
                 numberOfPlayersText.text = "Players Left: "  + numberOfPlayers;
-                spawnPositions = new Vector3[] { new Vector3(2, 2, 0), new Vector3(2, 8, 0), new Vector3(14, 8, 0), new Vector3(2, 14, 0)};
+                spawnPositions = new Vector3[] { new Vector3(2, 2, 0), new Vector3(2, 8, 0), new Vector3(14, 8, 0), new Vector3(14, 2, 0), new Vector3(8, 1, 0), new Vector3(8, 9, 0) };
                 alivePlayers = new Dictionary<string, bool>();
                 for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
                 {
