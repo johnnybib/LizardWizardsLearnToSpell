@@ -10,7 +10,7 @@ namespace Photon.Pun.Demo.PunBasics
         private Vector2 playerPosition;
         private Rigidbody2D rigidBody; 
         // public ProjectileController[] projectiles;
-        public string[] projectileNames = new string[] {"fireball", "firebolt", "righteous-flare", "bigsnow", "lightningcloud", "righteous-pellet", "demon-fire", "air-blast"};
+        public string[] projectileNames = new string[] {"Fireball", "firebolt", "righteous-flare", "bigsnow", "lightningcloud", "righteous-pellet", "demon-fire", "air-blast"};
 
         public AudioClip[] sfx;
         private AudioSource audioSource;
