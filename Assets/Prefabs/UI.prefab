@@ -392,8 +392,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   listItem: {fileID: 30136453883001616, guid: c5a757479e0eae6f6903be8ec91a6519, type: 3}
-  elemental: {fileID: 21300000, guid: 8112e5e7e74c770d3a4a5ff0a4998865, type: 3}
-  holy: {fileID: 21300000, guid: 2642159d20f5b67b0b72b15109eab470, type: 3}
-  dark: {fileID: 21300000, guid: f28e9675f8e371aba98adf67bb7b89c2, type: 3}
+  elemental: {fileID: 21300000, guid: c950f5560b5cee445a66f3f2e0fd6055, type: 3}
+  holy: {fileID: 21300000, guid: 5b4bace10ca9ddf4296d8367df820869, type: 3}
+  dark: {fileID: 21300000, guid: 243a4cd7e2fbebe469c8054a57f0a64e, type: 3}
   maxSpells: 4
   availableSpells: []
