@@ -350,8 +350,8 @@ MonoBehaviour:
   OwnershipTransfer: 0
   ObservedComponents:
   - {fileID: 4149858460684383359}
-  viewIdField: 0
-  InstantiationId: 4
+  viewIdField: 10
+  InstantiationId: 10
   isRuntimeInstantiated: 0
 --- !u!114 &4149858460684383359
 MonoBehaviour:
@@ -489,6 +489,10 @@ MonoBehaviour:
   - air-blast
   sfx:
   - {fileID: 8300000, guid: 408bfcbb94d40264c81fcb6c60326c9b, type: 3}
+  - {fileID: 8300000, guid: 4f0b2cbe2ba3c9f48af025e21212d232, type: 3}
+  - {fileID: 8300000, guid: f9688e2adb8d83d4687311dc32d9e339, type: 3}
+  - {fileID: 8300000, guid: 06fecaebe45981a4eae1f200fde6b73a, type: 3}
+  - {fileID: 8300000, guid: cd5c1fd0c69172c4489555ab51a2caa6, type: 3}
 --- !u!114 &8242986299578362754
 MonoBehaviour:
   m_ObjectHideFlags: 0
