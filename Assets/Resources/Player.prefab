@@ -351,7 +351,6 @@ MonoBehaviour:
   - {fileID: 4149858460684383359}
   viewIdField: 2
   InstantiationId: 2
-
   isRuntimeInstantiated: 0
 --- !u!114 &4149858460684383359
 MonoBehaviour:
@@ -389,7 +388,6 @@ MonoBehaviour:
   healthBar: {fileID: 4182491543153801881}
   spellList: {fileID: 0}
   direction: 0
-
   LookSprites:
   - {fileID: 21300000, guid: 67bf77e91e479744d998531d896231a8, type: 3}
   - {fileID: 21300000, guid: 4c9c525ff10d94a45bac14282a9c2871, type: 3}

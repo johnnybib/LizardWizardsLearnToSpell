@@ -191,8 +191,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1125434823
+  m_SortingLayer: -2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 71fa440f48c1bcdaeab0a8144a224dea, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -700,7 +700,7 @@ RectTransform:
   m_Children:
   - {fileID: 768173678}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -737,10 +737,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21ee36387fedb714995f04f04db95512, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player1SpawnPosition: {fileID: 1855645463}
-  player2SpawnPosition: {fileID: 882233297}
-  scrollPrefab: {fileID: 4203210207295642925, guid: a3de474f587618d61868af76295bd3bf,
-    type: 3}
   numberOfPlayersText: {fileID: 1298062025}
   winUI: {fileID: 481940468}
   winText: {fileID: 768173679}
@@ -909,7 +905,7 @@ PrefabInstance:
     - target: {fileID: 2651032352797317834, guid: dcc4c3b46c526a5b28070d87150dfb58,
         type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2651032352797317834, guid: dcc4c3b46c526a5b28070d87150dfb58,
         type: 3}
@@ -1295,7 +1291,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 604863415
-  m_SortingLayer: 0
+  m_SortingLayer: -1
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -2738,7 +2734,7 @@ Transform:
   m_Children:
   - {fileID: 1679140123}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1817039455
 GameObject:
