@@ -29,40 +29,40 @@ namespace Photon.Pun.Demo.PunBasics
             switch(spellName)
             {
             case "cone of frost":
-                ConeSpell(3); //ice cone
+                ConeSpell(3, 0); //ice cone
                 break;
             case "save the amazon":
-                CircleSpell(0);
+                CircleSpell(0, 3);
                 break;
             case "fire blast":
-                LineSpell(1);
+                LineSpell(1, 0);
                 break;
             case "righteous flare":
-                CircleSpell(2);
+                CircleSpell(2, 1);
                 break;
             case "cone of flame":
-                ConeSpell(0); //fire cone
+                ConeSpell(0, 3); //fire cone
                 break;
             case "it's going to rain":
-                LingeringAoeSpell(4);
+                LingeringAoeSpell(4, 1);
                 break;
             case "sear":
-                SmallSelfAoeSpell(6); //change to 6
+                SmallSelfAoeSpell(6, 0); //change to 6
                 break;
             case "let there be light":
-                LargeSelfAoeSpell(2);
+                LargeSelfAoeSpell(2, 4);
                 break;
             case "fear":
-                XSelfAoeSpell(6);
+                XSelfAoeSpell(6, 4);
                 break;
             case "sonic boom":
-                LineSpell(7);
+                LineSpell(7, 4);
                 break;
             }
 
         }
 
-        void ConeSpell(int prefabId)
+        void ConeSpell(int prefabId, int sfxId)
         {
             int damage = 1;
             float duration = 0.75f;
@@ -97,7 +97,7 @@ namespace Photon.Pun.Demo.PunBasics
                 }
                 int maxEnd = endTimes.Max();
                 int maxStart = startTimes.Max();
-                audioSource.clip = sfx[0];
+                audioSource.clip = sfx[sfxId];
                 audioSource.Play();
                 StartCoroutine(ProjectileTiming(maxEnd, maxStart));
             }
@@ -136,7 +136,7 @@ namespace Photon.Pun.Demo.PunBasics
             }
         }
 
-        void CircleSpell(int prefabId)
+        void CircleSpell(int prefabId, int sfxId)
         {
             int damage = 1;
             float duration = 1.5f;
@@ -182,7 +182,7 @@ namespace Photon.Pun.Demo.PunBasics
                 }
                 int maxEnd = endTimes.Max();
                 int maxStart = startTimes.Max();
-                audioSource.clip = sfx[0];
+                audioSource.clip = sfx[sfxId];
                 audioSource.Play();
                 StartCoroutine(ProjectileTiming(maxEnd, maxStart));
             }
@@ -221,7 +221,7 @@ namespace Photon.Pun.Demo.PunBasics
             }
         }
 
-        void LineSpell(int prefabId)
+        void LineSpell(int prefabId, int sfxId)
         {
             int damage = 1;
             float duration = 1f;
@@ -254,7 +254,7 @@ namespace Photon.Pun.Demo.PunBasics
                 }
                 int maxEnd = endTimes.Max();
                 int maxStart = startTimes.Max();
-                audioSource.clip = sfx[0];
+                audioSource.clip = sfx[sfxId];
                 audioSource.Play();
                 StartCoroutine(ProjectileTiming(maxEnd, maxStart));
             }
@@ -299,7 +299,7 @@ namespace Photon.Pun.Demo.PunBasics
                 }  
             }
         }
-        void LingeringAoeSpell(int prefabId)
+        void LingeringAoeSpell(int prefabId, int sfxId)
         {
             int damage = 1;
             float duration = 5f;
@@ -334,7 +334,7 @@ namespace Photon.Pun.Demo.PunBasics
                 }
                 int maxEnd = endTimes.Max();
                 int maxStart = startTimes.Max();
-                audioSource.clip = sfx[0];
+                audioSource.clip = sfx[sfxId];
                 audioSource.Play();
                 StartCoroutine(ProjectileTiming(maxEnd, maxStart));
             }
@@ -373,7 +373,7 @@ namespace Photon.Pun.Demo.PunBasics
             }
         }
 
-        void SmallSelfAoeSpell(int prefabId)
+        void SmallSelfAoeSpell(int prefabId, int sfxId)
         {
             int damage = 1;
             float duration = 0.5f;
@@ -405,7 +405,7 @@ namespace Photon.Pun.Demo.PunBasics
                 }
                 int maxEnd = endTimes.Max();
                 int maxStart = startTimes.Max();
-                audioSource.clip = sfx[0];
+                audioSource.clip = sfx[sfxId];
                 audioSource.Play();
                 StartCoroutine(ProjectileTiming(maxEnd, maxStart));
             }
@@ -444,7 +444,7 @@ namespace Photon.Pun.Demo.PunBasics
             }
         }
 
-        void LargeSelfAoeSpell(int prefabId)
+        void LargeSelfAoeSpell(int prefabId, int sfxId)
         {
             int damage = 1;
             float duration = 0.75f;
@@ -498,7 +498,7 @@ namespace Photon.Pun.Demo.PunBasics
                 }
                 int maxEnd = endTimes.Max();
                 int maxStart = startTimes.Max();
-                audioSource.clip = sfx[0];
+                audioSource.clip = sfx[sfxId];
                 audioSource.Play();
                 StartCoroutine(ProjectileTiming(maxEnd, maxStart));
             }
@@ -536,7 +536,7 @@ namespace Photon.Pun.Demo.PunBasics
                 }
             }
         }
-        void XSelfAoeSpell(int prefabId)
+        void XSelfAoeSpell(int prefabId, int sfxId)
         {
             int damage = 1;
             float duration = 0.5f;
@@ -568,7 +568,7 @@ namespace Photon.Pun.Demo.PunBasics
                 }
                 int maxEnd = endTimes.Max();
                 int maxStart = startTimes.Max();
-                audioSource.clip = sfx[0];
+                audioSource.clip = sfx[sfxId];
                 audioSource.Play();
                 StartCoroutine(ProjectileTiming(maxEnd, maxStart));
             }
