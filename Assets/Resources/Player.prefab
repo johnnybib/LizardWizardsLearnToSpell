@@ -256,7 +256,6 @@ GameObject:
   - component: {fileID: 7692542102057149092}
   - component: {fileID: 4149858460684383359}
   - component: {fileID: 8682020223347496646}
-  - component: {fileID: -422307458802520294}
   - component: {fileID: 6015582524283292515}
   - component: {fileID: 3066326219618928946}
   - component: {fileID: -2901835085808194229}
@@ -297,7 +296,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.0091599375, y: 0.03304117}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -308,7 +307,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.9, y: 0.9}
+  m_Size: {x: 0.3412418, y: 0.4032097}
   m_EdgeRadius: 0
 --- !u!50 &8801916396966188224
 Rigidbody2D:
@@ -350,8 +349,9 @@ MonoBehaviour:
   OwnershipTransfer: 0
   ObservedComponents:
   - {fileID: 4149858460684383359}
-  viewIdField: 0
-  InstantiationId: 1
+  viewIdField: 2
+  InstantiationId: 2
+
   isRuntimeInstantiated: 0
 --- !u!114 &4149858460684383359
 MonoBehaviour:
@@ -387,7 +387,9 @@ MonoBehaviour:
   maxHp: 3
   hp: 3
   healthBar: {fileID: 4182491543153801881}
+  spellList: {fileID: 0}
   direction: 0
+
   LookSprites:
   - {fileID: 21300000, guid: 67bf77e91e479744d998531d896231a8, type: 3}
   - {fileID: 21300000, guid: 4c9c525ff10d94a45bac14282a9c2871, type: 3}
@@ -397,32 +399,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: cf25b0c332182fd4283d4dcf4add0969, type: 3}
   - {fileID: 8300000, guid: 364157334790c664cb3d434ec07c3a63, type: 3}
   - {fileID: 8300000, guid: 24b9b35338acb984fba272d1344b7464, type: 3}
---- !u!61 &-422307458802520294
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8801916396966188255}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
 --- !u!95 &6015582524283292515
 Animator:
   serializedVersion: 3
