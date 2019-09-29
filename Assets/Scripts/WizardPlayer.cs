@@ -18,12 +18,14 @@ public class WizardPlayer : MovingObject
     private string playerName = "";
 
     public GameObject healthBar;
+    private SpellListController spellList;
 
     private bool testingMode = false;
 
     // Start is called before the first frame update
     protected override void Start()
     {
+        spellList = GameObject.Find("Spell List").GetComponent<SpellListController>();
         gameManager = GameObject.Find("GameManager").GetComponent<Photon.Pun.Demo.PunBasics.GameManager>();
         photonView = gameObject.GetComponent<PhotonView>();
         if(!testingMode)
@@ -49,8 +51,14 @@ public class WizardPlayer : MovingObject
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        
+        string spellName = other.gameObject.GetComponent<ScrollController>().spellName;
+        if (spellList.AddSpell(spellName))
+        {
+            Destroy(other.gameObject);
+            gameManager.addScroll();
+        }
     }
+
     protected override void AttemptMove(int xDir, int yDir)
     {
         base.AttemptMove(xDir, yDir);

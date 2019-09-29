@@ -34,8 +34,8 @@ public abstract class MovingObject : MonoBehaviour
             
         Vector2 start = transform.position;
         Vector2 end = start + new Vector2(xDir, yDir);
-        Debug.Log(start);
-        Debug.Log(end);
+        //Debug.Log(start);
+        //Debug.Log(end);
 
         boxCollider.enabled = false;
         hit = Physics2D.Linecast(start, end, blockingLayer);
