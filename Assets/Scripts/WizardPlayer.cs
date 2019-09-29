@@ -186,6 +186,8 @@ namespace Photon.Pun.Demo.PunBasics
         {
             isIFrame = true;
             float flashTime = iFrameTime/8f;
+
+            Color oldColor = renderer.color;
             renderer.color = new Color (1f, 1f, 1f, 0f);
             yield return new WaitForSeconds (flashTime);
             renderer.color = new Color (1f, 1f, 1f, 1f);
@@ -202,6 +204,7 @@ namespace Photon.Pun.Demo.PunBasics
             yield return new WaitForSeconds (flashTime);
             renderer.color = new Color (1f, 1f, 1f, 1f);
             yield return new WaitForSeconds (flashTime);
+            renderer.color = oldColor;
             isIFrame = false;
         }
 
