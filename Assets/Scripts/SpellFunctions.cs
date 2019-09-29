@@ -17,31 +17,26 @@ public class SpellFunctions : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown("k"))
-        {
-            playerPosition = transform.position;
-            Spell1();
-        }
+        // if (Input.GetKeyDown("k"))
+        // {
+        //     playerPosition = transform.position;
+        //     Spell1();
+        // }
     }
 
     public void FireSpell (string spellName)
     {
         
         playerPosition = transform.position;
-
-        if (spellName.Equals("smite")) 
+        switch(spellName)
         {
-            Debug.Log ("FIRING SPELL: " + spellName);
-            Spell1 ();
-        }
-        // TODO Add more spell cases here
-        else 
-        {
-            Debug.LogError ("THIS SHOULD NOT HAPPEN, cannot fire spell: no fire function.");
+        case "potato":
+            FireCone();
+            break;
         }
     }
 
-    void Spell1()
+    void FireCone()
     {
         int damage = 1;
         float duration = 0.75f;
@@ -88,12 +83,6 @@ public class SpellFunctions : MonoBehaviour
             {
                 if (k == projectileSettings[item][0]) {
                     int[] settings = projectileSettings[item];
-                    //int[] fullsettings = projectileSettings[item];
-                    // int[] settings = new int[lastSetting];
-                    // for (int i = 1; i < lastSetting; i++)
-                    // {
-                    //     settings[i-1] = fullsettings[i];
-                    // }
                     ProjectileController fireball = Instantiate(
                         projectiles[prefabId],
                         playerPosition,
