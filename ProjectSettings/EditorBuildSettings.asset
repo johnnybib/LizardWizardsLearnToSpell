@@ -5,10 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/YetiIntro.unity
     guid: 34aab5bcde6082642bdc25966cdb21ae
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/MainMenu.unity
     guid: 701ee9e272c078644adf082ee189f4cb
   - enabled: 1

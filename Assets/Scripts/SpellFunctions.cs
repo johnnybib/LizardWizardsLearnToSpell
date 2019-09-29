@@ -10,7 +10,7 @@ namespace Photon.Pun.Demo.PunBasics
         private Vector2 playerPosition;
         private Rigidbody2D rigidBody; 
         // public ProjectileController[] projectiles;
-        public string[] projectileNames = new string[] {"Fireball", "firebolt", "righteous-flare", "bigsnow", "lightningcloud", "righteous-pellet"};
+        public string[] projectileNames = new string[] {"Fireball", "firebolt", "righteous-flare", "bigsnow", "lightningcloud", "righteous-pellet", "demon-fire", "air-blast"};
 
         public AudioClip[] sfx;
         private AudioSource audioSource;
@@ -47,10 +47,16 @@ namespace Photon.Pun.Demo.PunBasics
                 LingeringAoeSpell(4);
                 break;
             case "sear":
-                SmallSelfAoeSpell(0); //change to 5
+                SmallSelfAoeSpell(6); //change to 6
                 break;
             case "let there be light":
-                LargeSelfAoeSpell(0); //change to 5
+                LargeSelfAoeSpell(2);
+                break;
+            case "fear":
+                XSelfAoeSpell(6);
+                break;
+            case "sonic boom":
+                LineSpell(7);
                 break;
             }
 
@@ -380,7 +386,7 @@ namespace Photon.Pun.Demo.PunBasics
                 //Initial Ring
                 {0, new int[] {0, 1, 0, 1, damage} },
                 {2, new int[] {0, 1, 1, 0, damage} },
-                {3, new int[] {0, 1, 1, -1, damage} },
+                {3, new int[] {0, 1, -1, 0, damage} },
                 {4, new int[] {0, 1, 0, -1, damage} },
             };
             //Key Value: [startTime, endTime, xdisplacement, ydisplacement, damage, duration]
@@ -441,7 +447,7 @@ namespace Photon.Pun.Demo.PunBasics
         void LargeSelfAoeSpell(int prefabId)
         {
             int damage = 1;
-            float duration = 0.5f;
+            float duration = 5f;
             //int prefabId = 0;
             string spellType = "projectile";
             Quaternion playerDirection = transform.rotation; //CHANGE THIS LATER
@@ -457,14 +463,94 @@ namespace Photon.Pun.Demo.PunBasics
                 {5, new int[] {0, 1, -1, -1, damage} },
                 {6, new int[] {0, 1, -1, 0, damage} },
                 {7, new int[] {0, 1, -1, 1, damage} },
+                //Second Ring
                 {8, new int[] {0, 1, 0, 2, damage} },
-                {9, new int[] {0, 1, 2, 2, damage} },
-                {10, new int[] {0, 1, 2, 0, damage} },
-                {11, new int[] {0, 1, 2, -2, damage} },
-                {12, new int[] {0, 1, 0, -2, damage} },
-                {13, new int[] {0, 1, -2, -2, damage} },
-                {14, new int[] {0, 1, -2, 0, damage} },
-                {15, new int[] {0, 1, -2, 2, damage} },
+                {9, new int[] {0, 1, 1, 2, damage} },
+                {10, new int[] {0, 1, -1, 2, damage} },
+                {11, new int[] {0, 1, 0, -2, damage} },
+                {12, new int[] {0, 1, 1, -2, damage} },
+                {13, new int[] {0, 1, -1, -2, damage} },
+                {14, new int[] {0, 1, 2, 0, damage} },
+                {15, new int[] {0, 1, 2, 1, damage} },
+                {16, new int[] {0, 1, 2, -1, damage} },
+                {17, new int[] {0, 1, -2, 0, damage} },
+                {18, new int[] {0, 1, -2, 1, damage} },
+                {19, new int[] {0, 1, -2, -1, damage} },
+                //Third Ring
+                {20, new int[] {0, 1, -3, 0, damage} },
+                {21, new int[] {0, 1, 3, 0, damage} },
+                {22, new int[] {0, 1, 0, -3, damage} },
+                {23, new int[] {0, 1, 0, 3, damage} },
+            };
+            //Key Value: [startTime, endTime, xdisplacement, ydisplacement, damage, duration]
+
+            int lastSetting = projectileSettings[0].Length - 2;
+            
+            if (spellType == "projectile") //check if spell is projectile
+            {
+                int[] endTimes = new int[projectileSettings.Count];
+                int[] startTimes = new int[projectileSettings.Count];
+                int j = 0;
+                foreach(int item in projectileSettings.Keys) {
+                    endTimes[0] = projectileSettings[item][1];
+                    startTimes[0] = projectileSettings[item][0];
+                    j++;
+                }
+                int maxEnd = endTimes.Max();
+                int maxStart = startTimes.Max();
+                audioSource.clip = sfx[0];
+                audioSource.Play();
+                StartCoroutine(ProjectileTiming(maxEnd, maxStart));
+            }
+            
+            IEnumerator ProjectileTiming(int maxEnd, int maxStart)
+            {
+                for (int k = 0; k < maxEnd + 1; k++)
+                {
+                foreach(int item in projectileSettings.Keys)
+                {
+                    if (k == projectileSettings[item][0]) {
+                        int[] settings = projectileSettings[item];
+                        GameObject fireball = PhotonNetwork.Instantiate(projectileNames[prefabId],
+                            playerPosition,
+                            playerDirection
+                            );
+                        Vector2 displacement = new Vector3(settings[2], settings[3], 0f);
+                        if (direction == 1)
+                        {
+                                displacement = -1*Vector2.Perpendicular(displacement);
+                        }
+                        if (direction == 2)
+                        {
+                                displacement = -1*displacement;
+                        }
+                        if (direction == 3)
+                        {
+                                displacement = Vector2.Perpendicular(displacement);
+                        }
+
+                        fireball.GetComponent<ProjectileController>().Shoot(settings[0], settings[1], displacement, settings[4], duration, maxStart, maxEnd);
+                    }
+                }
+                yield return new WaitForSeconds(duration/(maxStart + 1));
+                }
+            }
+        }
+        void XSelfAoeSpell(int prefabId)
+        {
+            int damage = 1;
+            float duration = 0.5f;
+            //int prefabId = 0;
+            string spellType = "projectile";
+            Quaternion playerDirection = transform.rotation; //CHANGE THIS LATER
+            int direction = this.GetComponentInParent<WizardPlayer>().direction;
+            Dictionary<int, int[]> projectileSettings = new Dictionary<int, int[]>()
+            {
+                //Initial Ring
+                {0, new int[] {0, 1, 1, 1, damage} },
+                {2, new int[] {0, 1, 1, -1, damage} },
+                {3, new int[] {0, 1, -1, -1, damage} },
+                {4, new int[] {0, 1, -1, 1, damage} },
             };
             //Key Value: [startTime, endTime, xdisplacement, ydisplacement, damage, duration]
 
