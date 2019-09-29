@@ -155,7 +155,7 @@ namespace Photon.Pun.Demo.PunBasics
                         winText.text = alivePlayer + " wins!";
                     }
                 }
-                Resettor();
+                StartCoroutine("Resettor");
                 
 
             }
@@ -164,7 +164,7 @@ namespace Photon.Pun.Demo.PunBasics
         private IEnumerator Resettor()
         {
             yield return new WaitForSecondsRealtime(5);
-            SceneManager.LoadScene("MainMenu");
+            SceneManager.LoadScene("Launcher");
         }
 
         public void AddScroll()
