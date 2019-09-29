@@ -24,7 +24,7 @@ public class WizardPlayer : MovingObject
 
     private bool testingMode = false;
     
-    int direction;
+    public int direction;
     public Sprite[] LookSprites;
     [SerializeField]
     private AudioClip [] sfx;
