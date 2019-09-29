@@ -447,7 +447,7 @@ namespace Photon.Pun.Demo.PunBasics
         void LargeSelfAoeSpell(int prefabId)
         {
             int damage = 1;
-            float duration = 5f;
+            float duration = 0.75f;
             //int prefabId = 0;
             string spellType = "projectile";
             Quaternion playerDirection = transform.rotation; //CHANGE THIS LATER
