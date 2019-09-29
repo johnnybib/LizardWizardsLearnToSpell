@@ -350,8 +350,8 @@ MonoBehaviour:
   OwnershipTransfer: 0
   ObservedComponents:
   - {fileID: 4149858460684383359}
-  viewIdField: 1
-  InstantiationId: 1
+  viewIdField: 0
+  InstantiationId: 4
   isRuntimeInstantiated: 0
 --- !u!114 &4149858460684383359
 MonoBehaviour:
@@ -456,7 +456,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 4c9c525ff10d94a45bac14282a9c2871, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.21226418, g: 1, b: 0.7925939, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

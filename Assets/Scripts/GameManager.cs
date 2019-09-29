@@ -49,6 +49,7 @@ namespace Photon.Pun.Demo.PunBasics
         private int layerMask;
         private SpellListController spellList;
 
+        private string[] playerPrefabNames;
 
         private Vector3[] spawnPositions;
         private int numberOfPlayers;
@@ -75,6 +76,7 @@ namespace Photon.Pun.Demo.PunBasics
                 numberOfPlayers = PhotonNetwork.PlayerList.Length;
                 numberOfPlayersText.text = "Players Left: "  + numberOfPlayers;
                 spawnPositions = new Vector3[] { new Vector3(2, 2, 0), new Vector3(2, 8, 0), new Vector3(14, 8, 0), new Vector3(14, 2, 0), new Vector3(8, 1, 0), new Vector3(8, 9, 0) };
+                playerPrefabNames = new string[] { "PlayerLight", "PlayerGreen", "PlayerYellow", "PlayerRed", "PlayerAqua", "PlayerDark"};
                 alivePlayers = new Dictionary<string, bool>();
                 for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
                 {
@@ -86,7 +88,7 @@ namespace Photon.Pun.Demo.PunBasics
                     alivePlayers.Add(PhotonNetwork.PlayerList[i].NickName, true);
                 }
 
-                player = PhotonNetwork.Instantiate("Player", spawnPositions[playerNumber], Quaternion.identity, 0);
+                player = PhotonNetwork.Instantiate(playerPrefabNames[playerNumber], spawnPositions[playerNumber], Quaternion.identity, 0);
                 if(PhotonNetwork.IsMasterClient)
                 {
                     AddScroll();
