@@ -85,7 +85,7 @@ public class TypingController : MonoBehaviour
             Debug.LogError ("Cannot fire spell, please add a WizardPlayer.cs script to your game object, and ensure that it has a SpellFunctions.");
             return;
         }
-        player.GetSpellFunctions ().FireSpell (spell);
+        player.GetSpellFunctions().FireSpell (spell);
         SpellFired ();
     }
 }

@@ -24,7 +24,7 @@ public class WizardPlayer : MovingObject
 
     private bool testingMode = false;
     
-    int direction;
+    public int direction;
     public Sprite[] LookSprites;
     [SerializeField]
     private AudioClip [] sfx;
@@ -146,10 +146,7 @@ public class WizardPlayer : MovingObject
                 photonView.RPC("RotateSpriteRPC", RpcTarget.All, 1);
             }
                 
-            // if(Input.GetKeyDown("a"))
-            // {
-            //     LoseHP(1);
-            // }
+
 
             //horizontal = (int)Input.GetAxisRaw("Horizontal");
             //vertical = (int)Input.GetAxisRaw("Vertical");
