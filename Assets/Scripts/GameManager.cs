@@ -59,8 +59,7 @@ namespace Photon.Pun.Demo.PunBasics
 
             if (PlayerManager.LocalPlayerInstance == null)
             {
-                spawnPositions = new Vector3[] { new Vector3(0, 0, 0), new Vector3(0, 9, 0), new Vector3(0, 0, 9), new Vector3(0, 9, 9)};
-
+                spawnPositions = new Vector3[] { new Vector3(0, 0, 0), new Vector3(0, 9, 0), new Vector3(9, 0, 0), new Vector3(9, 9, 0)};
                 for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
                 {
                     if(PhotonNetwork.PlayerList[i].NickName == PhotonNetwork.NickName)

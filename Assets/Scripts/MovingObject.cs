@@ -32,14 +32,14 @@ public abstract class MovingObject : MonoBehaviour
     {
        
             
-            Vector2 start = transform.position;
-            Vector2 end = start + new Vector2(xDir, yDir);
-            Debug.Log(start);
-            Debug.Log(end);
+        Vector2 start = transform.position;
+        Vector2 end = start + new Vector2(xDir, yDir);
+        Debug.Log(start);
+        Debug.Log(end);
 
-            boxCollider.enabled = false;
-            hit = Physics2D.Linecast(start, end, blockingLayer);
-            boxCollider.enabled = true;
+        boxCollider.enabled = false;
+        hit = Physics2D.Linecast(start, end, blockingLayer);
+        boxCollider.enabled = true;
             
         if (hit.transform == null)
         {
@@ -52,6 +52,9 @@ public abstract class MovingObject : MonoBehaviour
 
                 StartCoroutine(SmoothMovement(end));
                 return true;
+            }
+            else{
+                Debug.Log("cant move");
             }
 
 
@@ -91,6 +94,7 @@ public abstract class MovingObject : MonoBehaviour
             yield return null;
         }
         isMoving = false;
+        Debug.Log("Done smooth movement");
     }
 
     protected abstract void OnCantMove<T>(T component)
