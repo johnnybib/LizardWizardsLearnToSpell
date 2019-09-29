@@ -296,7 +296,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0091599375, y: 0.03304117}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -349,8 +349,8 @@ MonoBehaviour:
   OwnershipTransfer: 0
   ObservedComponents:
   - {fileID: 4149858460684383359}
-  viewIdField: 2
-  InstantiationId: 2
+  viewIdField: 3
+  InstantiationId: 3
   isRuntimeInstantiated: 0
 --- !u!114 &4149858460684383359
 MonoBehaviour:
@@ -477,13 +477,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d83bea28839fde54dae01bf3e9d925b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectiles:
-  - {fileID: 6405361623961372732, guid: 8b75ba24ccc05674a91b32e5992a6913, type: 3}
-  - {fileID: 3210983320746448696, guid: 26a544f0c364ca44ea8ef54e7c27ee46, type: 3}
-  - {fileID: 2207531825043001043, guid: d231354cf746229498c7f17e1f1175d2, type: 3}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  projectileNames:
+  - Fireball
+  - firebolt
+  - righteous-flare
   sfx:
   - {fileID: 8300000, guid: 408bfcbb94d40264c81fcb6c60326c9b, type: 3}
 --- !u!114 &8242986299578362754

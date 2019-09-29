@@ -41,4 +41,5 @@ MonoBehaviour:
   - MasterScrollPickup
   - DestroySelfRPC
   - SetSpellNameRPC
+  - SetDamageRPC
   DisableAutoOpenWizard: 1
