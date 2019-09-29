@@ -8,46 +8,47 @@ public class SpellFunctions : MonoBehaviour
     private Vector2 playerPosition;
     private Rigidbody2D rigidBody; 
     public ProjectileController[] projectiles;
+
+    public AudioClip[] sfx;
+    private AudioSource audioSource;
+
     // Start is called before the first frame update
     void Start()
     {
         rigidBody = GetComponent<Rigidbody2D>();
+        audioSource = gameObject.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown("k"))
-        {
-            playerPosition = transform.position;
-            Spell1();
-        }
+        // if (Input.GetKeyDown("k"))
+        // {
+        //     playerPosition = transform.position;
+        //     Spell1();
+        // }
     }
 
     public void FireSpell (string spellName)
     {
         
         playerPosition = transform.position;
-
-        if (spellName.Equals("smite")) 
+        switch(spellName)
         {
-            Debug.Log ("FIRING SPELL: " + spellName);
-            Spell1 ();
-        }
-        // TODO Add more spell cases here
-        else 
-        {
-            Debug.LogError ("THIS SHOULD NOT HAPPEN, cannot fire spell: no fire function.");
+        case "potato":
+            FireCone();
+            break;
         }
     }
 
-    void Spell1()
+    void FireCone()
     {
         int damage = 1;
         float duration = 0.75f;
         int prefabId = 0;
         string spellType = "projectile";
         Quaternion playerDirection = transform.rotation; //CHANGE THIS LATER
+        int direction = this.GetComponentInParent<WizardPlayer>().direction;
         Dictionary<int, int[]> projectileSettings = new Dictionary<int, int[]>()
         {
             {0, new int[] {0, 4, 0, 1, damage} },
@@ -76,6 +77,8 @@ public class SpellFunctions : MonoBehaviour
             }
             int maxEnd = endTimes.Max();
             int maxStart = startTimes.Max();
+            audioSource.clip = sfx[0];
+            audioSource.Play();
             StartCoroutine(ProjectileTiming(maxEnd, maxStart));
         }
         
@@ -87,18 +90,25 @@ public class SpellFunctions : MonoBehaviour
             {
                 if (k == projectileSettings[item][0]) {
                     int[] settings = projectileSettings[item];
-                    //int[] fullsettings = projectileSettings[item];
-                    // int[] settings = new int[lastSetting];
-                    // for (int i = 1; i < lastSetting; i++)
-                    // {
-                    //     settings[i-1] = fullsettings[i];
-                    // }
                     ProjectileController fireball = Instantiate(
                         projectiles[prefabId],
                         playerPosition,
                         playerDirection
                         );
                     Vector2 displacement = new Vector3(settings[2], settings[3], 0f);
+                    if (direction == 1)
+                    {
+                            displacement = -1*Vector2.Perpendicular(displacement);
+                    }
+                    if (direction == 2)
+                    {
+                            displacement = -1*displacement;
+                    }
+                    if (direction == 3)
+                    {
+                            displacement = Vector2.Perpendicular(displacement);
+                    }
+
                     fireball.Shoot(settings[0], settings[1], displacement, settings[4], duration, maxStart, maxEnd);
                 }
             }
