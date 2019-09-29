@@ -16,11 +16,14 @@ public class WizardPlayer : MovingObject
     PhotonView photonView;
 
     private string playerName = "";
-
     public GameObject healthBar;
     private SpellListController spellList;
 
     private bool testingMode = false;
+    
+    int direction;
+    public Sprite[] LookSprites;
+
 
     // Start is called before the first frame update
     protected override void Start()
@@ -33,6 +36,7 @@ public class WizardPlayer : MovingObject
             playerName = photonView.Owner.NickName;
         }
         gameObject.name = playerName;
+        direction = 0;
         base.Start();
     }
 
@@ -68,19 +72,38 @@ public class WizardPlayer : MovingObject
     // Update is called once per frame
     void Update()
     {
-        if(photonView.IsMine || testingMode)
+        if (photonView.IsMine || testingMode)
         {
             int horizontal = 0;
             int vertical = 0;
 
             if (Input.GetKeyDown(KeyCode.UpArrow))
+            {
                 vertical = 1;
+                direction = 0;
+                this.gameObject.GetComponent<SpriteRenderer>().sprite = LookSprites[0];
+            }
             if (Input.GetKeyDown(KeyCode.DownArrow))
+            {
                 vertical = -1;
+                direction = 2;
+                this.gameObject.GetComponent<SpriteRenderer>().sprite = LookSprites[2];
+            }
+
             if (Input.GetKeyDown(KeyCode.LeftArrow))
+            {
                 horizontal = -1;
+                direction = 3;
+                this.gameObject.GetComponent<SpriteRenderer>().sprite = LookSprites[3];
+            }
+                
             if (Input.GetKeyDown(KeyCode.RightArrow))
+            {
                 horizontal = 1;
+                direction = 1;
+                this.gameObject.GetComponent<SpriteRenderer>().sprite = LookSprites[1];
+            }
+                
             if(Input.GetKeyDown("a"))
             {
                 loseHP(1);
