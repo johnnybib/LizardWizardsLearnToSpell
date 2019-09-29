@@ -132,7 +132,7 @@ public class WizardPlayer : MovingObject
     public void LoseHPRPC(int loss)
     {
         hp -= loss;
-        Vector3 healthBarReduced = new Vector3(healthBar.transform.localScale.x * hp/maxHp, 1, 1);
+        Vector3 healthBarReduced = new Vector3(healthBar.transform.localScale.x * hp/maxHp, healthBar.transform.localScale.y, 1);
         healthBar.transform.localScale = healthBarReduced;
         if (hp <= 0)
         {
