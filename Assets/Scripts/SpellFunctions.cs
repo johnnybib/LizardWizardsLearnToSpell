@@ -48,6 +48,7 @@ public class SpellFunctions : MonoBehaviour
         int prefabId = 0;
         string spellType = "projectile";
         Quaternion playerDirection = transform.rotation; //CHANGE THIS LATER
+        int direction = this.GetComponentInParent<WizardPlayer>().direction;
         Dictionary<int, int[]> projectileSettings = new Dictionary<int, int[]>()
         {
             {0, new int[] {0, 4, 0, 1, damage} },
@@ -99,6 +100,19 @@ public class SpellFunctions : MonoBehaviour
                         playerDirection
                         );
                     Vector2 displacement = new Vector3(settings[2], settings[3], 0f);
+                    if (direction == 1)
+                    {
+                            displacement = -1*Vector2.Perpendicular(displacement);
+                    }
+                    if (direction == 2)
+                    {
+                            displacement = -1*displacement;
+                    }
+                    if (direction == 3)
+                    {
+                            displacement = Vector2.Perpendicular(displacement);
+                    }
+
                     fireball.Shoot(settings[0], settings[1], displacement, settings[4], duration, maxStart, maxEnd);
                 }
             }

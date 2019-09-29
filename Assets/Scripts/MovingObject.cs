@@ -31,7 +31,6 @@ public abstract class MovingObject : MonoBehaviour
     protected bool Move (int xDir, int yDir, out RaycastHit2D hit)
     {
        
-            
         Vector2 start = transform.position;
         Vector2 end = start + new Vector2(xDir, yDir);
         //Debug.Log(start);
