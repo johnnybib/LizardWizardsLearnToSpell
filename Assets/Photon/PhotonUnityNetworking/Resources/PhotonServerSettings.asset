@@ -32,4 +32,7 @@ MonoBehaviour:
   - DestroySpaceship
   - Fire
   - RespawnSpaceship
+  - loseHPRPC
+  - LoseHPRPC
+  - ReducePlayers
   DisableAutoOpenWizard: 1

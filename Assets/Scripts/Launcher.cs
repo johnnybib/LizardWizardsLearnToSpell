@@ -95,6 +95,7 @@ namespace Photon.Pun.Demo.PunBasics
                 PhotonNetwork.JoinOrCreateRoom(roomName, roomOptions, typedLobby);
                 PhotonNetwork.LoadLevel("MainGame");
             }
+            playerStatus.text = "";
 
         }
 
@@ -175,12 +176,13 @@ namespace Photon.Pun.Demo.PunBasics
             {
                 buttonLoadArena.SetActive(true);
                 buttonJoinRoom.SetActive(false);
+                playerStatus.text = "You are the Host";
                 UpdatePlayerCount();
 
             }
             else
             {
-                playerStatus.text = "Connected to Lobby";
+                playerStatus.text = "Joined Lobby";
                 UpdatePlayerCount();
             }
         }

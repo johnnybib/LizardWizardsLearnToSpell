@@ -7,7 +7,7 @@ using Photon.Pun;
 
 public abstract class MovingObject : MonoBehaviour
 {
-    public float moveTime = 1f;
+    public float moveTime = 0.1f;
     public LayerMask blockingLayer;
 
     private BoxCollider2D boxCollider;
@@ -84,17 +84,26 @@ public abstract class MovingObject : MonoBehaviour
     }
     protected IEnumerator SmoothMovement(Vector3 end)
     {
-        float sqrRemainingDistance = (transform.position - end).sqrMagnitude;
-
-        while (sqrRemainingDistance > float.Epsilon)
+        float elapsedTime = 0;
+        Vector3 startingPos = transform.position;
+        while (elapsedTime < moveTime)
         {
-            Vector3 newPosition = Vector3.MoveTowards(rb2D.position, end, inverseMoveTime * Time.deltaTime);
-            rb2D.MovePosition(newPosition);
-            sqrRemainingDistance = (transform.position - end).sqrMagnitude;
-            yield return null;
+            transform.position = Vector3.Lerp(startingPos, end, (elapsedTime / moveTime));
+            elapsedTime += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
         }
+        transform.position = end;
+        
+        // float sqrRemainingDistance = (transform.position - end).sqrMagnitude;
+
+        // while (sqrRemainingDistance > float.Epsilon)
+        // {
+        //     Vector3 newPosition = Vector3.MoveTowards(rb2D.position, end, inverseMoveTime * Time.deltaTime);
+        //     rb2D.MovePosition(newPosition);
+        //     sqrRemainingDistance = (transform.position - end).sqrMagnitude;
+        //     yield return null;
+        // }
         isMoving = false;
-        Debug.Log("Done smooth movement");
     }
 
     protected abstract void OnCantMove<T>(T component)
