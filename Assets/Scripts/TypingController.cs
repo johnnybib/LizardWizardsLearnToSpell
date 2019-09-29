@@ -8,7 +8,11 @@ public class TypingController : MonoBehaviour
 {
     public delegate void OnWordUpdate (string word);
     public static event OnWordUpdate WordUpdated;
-    public CameraController cameraController;
+
+    public delegate void OnSpellFire ();
+    public static event OnSpellFire SpellFired;
+
+    WizardPlayer player;
     private StringBuilder currWord;
     private string spell;
     private Dictionary<string, bool> spells = new Dictionary<string, bool> ();
@@ -16,21 +20,20 @@ public class TypingController : MonoBehaviour
 
     void Start()
     {
-        
         currWord = new StringBuilder ();
-        // TODO update spell dictionary to read from somewhere else
-        spells.Add ("expand dong", true);
+        player = gameObject.GetComponentInParent<WizardPlayer> ();
     }
 
 
     void Update()
     {
-        string input = Input.inputString;
-        if (input.Equals (""))
-            return;
-        //Debug.Log ("Input is: " + input);
-        UpdateWord (input [0]);
-
+        if (player.GetPhotonView().IsMine || player.GetTestingMode())
+        {
+            string input = Input.inputString;
+            if (input.Equals (""))
+                return;
+            UpdateWord (input [0]);
+        }
     }
 
     void UpdateWord(char c) 
@@ -39,7 +42,6 @@ public class TypingController : MonoBehaviour
         {
             if (currWord.Length > 0)
             {
-                cameraController.StartZoom();
                 AttemptSpell();
             }
         }
@@ -56,7 +58,13 @@ public class TypingController : MonoBehaviour
 
     private void AttemptSpell()
     {
-        spell = CheckDictionary();
+        if (player == null || player.GetSpellList () == null) 
+        {
+            Debug.LogError ("Cannot attempt spell, please add a WizardPlayer.cs script to your game object, and ensure that it has a SpellListController.");
+            return;
+        }
+        // Send to List Controller
+        spell = player.GetSpellList().CheckSpell(currWord.ToString().ToLower());
         if (spell != null) 
             FireSpell (spell);
         currWord = new StringBuilder();
@@ -72,6 +80,12 @@ public class TypingController : MonoBehaviour
 
     private void FireSpell(string spell) 
     {
-        Debug.Log ("FIRING SPELL: " + spell);
+        if (player.GetSpellFunctions() == null) 
+        {
+            Debug.LogError ("Cannot fire spell, please add a WizardPlayer.cs script to your game object, and ensure that it has a SpellFunctions.");
+            return;
+        }
+        player.GetSpellFunctions ().FireSpell (spell);
+        SpellFired ();
     }
 }

@@ -24,6 +24,23 @@ public class SpellFunctions : MonoBehaviour
         }
     }
 
+    public void FireSpell (string spellName)
+    {
+        
+        playerPosition = transform.position;
+
+        if (spellName.Equals("smite")) 
+        {
+            Debug.Log ("FIRING SPELL: " + spellName);
+            Spell1 ();
+        }
+        // TODO Add more spell cases here
+        else 
+        {
+            Debug.LogError ("THIS SHOULD NOT HAPPEN, cannot fire spell: no fire function.");
+        }
+    }
+
     void Spell1()
     {
         int damage = 1;

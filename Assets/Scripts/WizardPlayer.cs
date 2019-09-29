@@ -18,6 +18,7 @@ public class WizardPlayer : MovingObject
     private string playerName = "";
     public GameObject healthBar;
     private SpellListController spellList;
+    private SpellFunctions spellFunctions;
 
     private bool testingMode = false;
     
@@ -30,6 +31,7 @@ public class WizardPlayer : MovingObject
     {
         spellList = GameObject.Find("Spell List").GetComponent<SpellListController>();
         gameManager = GameObject.Find("GameManager").GetComponent<Photon.Pun.Demo.PunBasics.GameManager>();
+        spellFunctions = gameObject.GetComponentInParent<SpellFunctions> ();
         photonView = gameObject.GetComponent<PhotonView>();
         if(!testingMode)
         {
@@ -49,10 +51,15 @@ public class WizardPlayer : MovingObject
     private void OnTriggerEnter2D(Collider2D other)
     {
         string spellName = other.gameObject.GetComponent<ScrollController>().spellName;
-        if (spellList.AddSpell(spellName))
+        if (photonView.IsMine || testingMode)
         {
-            Destroy(other.gameObject);
-            gameManager.addScroll();
+            if (spellList.AddSpell (spellName))
+            {
+
+                Destroy (other.gameObject);
+                gameManager.addScroll ();
+
+            }
         }
     }
 
@@ -144,5 +151,25 @@ public class WizardPlayer : MovingObject
     protected override void OnCantMove<T>(T component)
     {
         
+    }
+
+    public SpellListController GetSpellList ()
+    {
+        return spellList;
+    }
+
+    public SpellFunctions GetSpellFunctions()
+    {
+        return spellFunctions;
+    }
+
+    public PhotonView GetPhotonView ()
+    {
+        return photonView;
+    }
+
+    public bool GetTestingMode ()
+    {
+        return testingMode;
     }
 }

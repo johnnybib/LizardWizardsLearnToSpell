@@ -12,6 +12,14 @@ public class CameraController : MonoBehaviour
     private float velocity = 0.0f;
     public int moveState;
 
+    private void OnEnable () {
+        TypingController.SpellFired += StartZoom;
+    }
+
+    private void OnDisable () {
+        TypingController.SpellFired -= StartZoom;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
