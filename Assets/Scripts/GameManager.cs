@@ -41,10 +41,18 @@ namespace Photon.Pun.Demo.PunBasics
     {
         public GameObject player1SpawnPosition;
 
+        public GameObject player2SpawnPosition;
+        public GameObject scrollPrefab;
+
         private GameObject player;
         private BoardManager boardScript;
         private Dictionary<string, bool> alivePlayers;
         private int playerNumber;
+
+        private int layerMask;
+        private SpellListController spellList;
+
+
         private Vector3[] spawnPositions;
         private int numberOfPlayers;
         public Text numberOfPlayersText;
@@ -54,6 +62,8 @@ namespace Photon.Pun.Demo.PunBasics
         // Start Method
         void Start()
         {
+            layerMask = LayerMask.GetMask("Players", "Scrolls");
+            spellList = GameObject.Find("Spell List").GetComponent<SpellListController>();
             if (!PhotonNetwork.IsConnected)
             {
                 SceneManager.LoadScene("Launcher");
@@ -78,6 +88,7 @@ namespace Photon.Pun.Demo.PunBasics
                 }
 
                 player = PhotonNetwork.Instantiate("Player", spawnPositions[playerNumber], player1SpawnPosition.transform.rotation, 0);
+                addScroll();
             }
         }
 
@@ -146,6 +157,20 @@ namespace Photon.Pun.Demo.PunBasics
             }
         }
 
+        public void addScroll()
+        {
+            int x = Random.Range(0, boardScript.columns);
+            int y = Random.Range(0, boardScript.rows);
+            Vector3 position = new Vector3(x, y, 0);
+            while (Physics2D.OverlapPoint(position, layerMask))
+            {
+                x = Random.Range(0, boardScript.columns);
+                y = Random.Range(0, boardScript.rows);
+                position = new Vector3(x, y, 0);
+            }
+            GameObject scroll = Instantiate(scrollPrefab, position, Quaternion.identity);
+            scroll.GetComponent<ScrollController>().spellName = spellList.RandomScroll();
+        }
        
     }
 }
