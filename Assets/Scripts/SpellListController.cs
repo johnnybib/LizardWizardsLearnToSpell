@@ -18,13 +18,16 @@ public class SpellListController : MonoBehaviour
     public string[] availableSpells;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         spellDict.Add("potato", "elemental");
         spellDict.Add("Djas'sa's Wrath", "dark");
         spellDict.Add("Smite", "holy");
 
         availableSpells = new string[maxSpells];
+    }
+    void Start()
+    {
         DrawSpellList();
     }
 
@@ -40,10 +43,12 @@ public class SpellListController : MonoBehaviour
         {
           GameObject.Destroy(child.gameObject);
         }
-
+       
         for (int i = 0; i < numSpells; i++)
         {
+            Debug.Log(availableSpells[i]);
             string school = "";
+            
             spellDict.TryGetValue(availableSpells[i], out school);
             GameObject obj = Instantiate(listItem, this.transform);
             obj.transform.localPosition = new Vector3(20, -20 - (20 + 100*obj.transform.localScale.y)*i, 0);
