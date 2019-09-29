@@ -39,40 +39,20 @@ namespace Photon.Pun.Demo.PunBasics
             spellFunctions = gameObject.GetComponentInParent<SpellFunctions> ();
             photonView = gameObject.GetComponent<PhotonView>();
             audioSource = gameObject.GetComponent<AudioSource> ();
+            renderer = gameObject.GetComponent<SpriteRenderer> ();
+
             if(!testingMode)
             {
                 playerName = photonView.Owner.NickName;
             }
             gameObject.name = playerName;
             direction = 0;
+            isIFrame = false;
+
             base.Start();
         }
 
-        private void OnDisable()
-        {
-        
-        }
 
-        // private void OnTriggerEnter2D(Collider2D other)
-        // {
-        //     if(other.gameObject.tag == "Scroll")
-        //     {
-        //         string spellName = other.gameObject.GetComponent<ScrollController>().spellName;
-        //         if (photonView.IsMine || testingMode)
-        //         {
-        //             Debug.Log(other.gameObject.GetComponent<ScrollController>().GetScrollID());
-        //             if (spellList.AddSpell (spellName))
-        //             {
-
-
-                        
-        //                 audioSource.clip = sfx [1];
-        //                 audioSource.Play ();
-        //             }
-        //         }
-        //     }
-
-        // }
         public void ScrollPickup()
         {
             photonView.RPC("MasterScrollPickup", RpcTarget.MasterClient);
@@ -88,15 +68,17 @@ namespace Photon.Pun.Demo.PunBasics
             // }
         }
 
+        private void OnDisable()
+        {
+
+        }
+
         [PunRPC]
         public void MasterScrollPickup()
         {
             Debug.Log("Master pickup");
             gameManager.AddScroll();
         }
-
-
-        
 
         protected override void AttemptMove(int xDir, int yDir)
         {
@@ -156,13 +138,6 @@ namespace Photon.Pun.Demo.PunBasics
                 {
                     vertical = 0;
                 }
-                        
-
-                if (horizontal != 0 || vertical != 0)
-                {
-                    AttemptMove(horizontal, vertical);
-
-                }
             }
         }
 
@@ -180,10 +155,13 @@ namespace Photon.Pun.Demo.PunBasics
                 gameManager.KillPlayer();
             }
 
+
         }
         [PunRPC]
         public void LoseHPRPC(int loss)
         {
+            if (isIFrame)
+              return;
             hp -= loss;
             Vector3 healthBarReduced = new Vector3(healthBar.transform.localScale.x * hp/maxHp, healthBar.transform.localScale.y, 1);
             healthBar.transform.localScale = healthBarReduced;
@@ -194,13 +172,39 @@ namespace Photon.Pun.Demo.PunBasics
             {
                 gameManager.ReducePlayers(playerName);
             }
+            StartCoroutine (IFrameFlash());
+
         }
+        private IEnumerator IFrameFlash ()
+        {
+            isIFrame = true;
+            float flashTime = iFrameTime/8f;
+            renderer.color = new Color (1f, 1f, 1f, 0f);
+            yield return new WaitForSeconds (flashTime);
+            renderer.color = new Color (1f, 1f, 1f, 1f);
+            yield return new WaitForSeconds (flashTime);
+            renderer.color = new Color (1f, 1f, 1f, 0f);
+            yield return new WaitForSeconds (flashTime);
+            renderer.color = new Color (1f, 1f, 1f, 1f);
+            yield return new WaitForSeconds (flashTime);
+            renderer.color = new Color (1f, 1f, 1f, 0f);
+            yield return new WaitForSeconds (flashTime);
+            renderer.color = new Color (1f, 1f, 1f, 1f);
+            yield return new WaitForSeconds (flashTime);
+            renderer.color = new Color (1f, 1f, 1f, 0f);
+            yield return new WaitForSeconds (flashTime);
+            renderer.color = new Color (1f, 1f, 1f, 1f);
+            yield return new WaitForSeconds (flashTime);
+            isIFrame = false;
+        }
+
 
 
         protected override void OnCantMove<T>(T component)
         {
             
         }
+
 
         public SpellListController GetSpellList ()
         {
@@ -217,10 +221,10 @@ namespace Photon.Pun.Demo.PunBasics
             return photonView;
         }
 
+
         public bool GetTestingMode ()
         {
             return testingMode;
         }
     }
-
 }

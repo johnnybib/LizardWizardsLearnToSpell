@@ -397,6 +397,35 @@ MonoBehaviour:
   - {fileID: 8300000, guid: cf25b0c332182fd4283d4dcf4add0969, type: 3}
   - {fileID: 8300000, guid: 364157334790c664cb3d434ec07c3a63, type: 3}
   - {fileID: 8300000, guid: 24b9b35338acb984fba272d1344b7464, type: 3}
+
+  iFrameTime: 0.5
+--- !u!61 &-422307458802520294
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8801916396966188255}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+
 --- !u!95 &6015582524283292515
 Animator:
   serializedVersion: 3
