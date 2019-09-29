@@ -45,13 +45,6 @@ public class WizardPlayer : MovingObject
        
     }
 
-    private void CheckIfDead()
-    {
-        if (hp <= 0)
-        {
-            gameManager.isDead();
-        }
-    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -106,7 +99,7 @@ public class WizardPlayer : MovingObject
                 
             if(Input.GetKeyDown("a"))
             {
-                loseHP(1);
+                LoseHP(1);
             }
 
             //horizontal = (int)Input.GetAxisRaw("Horizontal");
@@ -125,13 +118,28 @@ public class WizardPlayer : MovingObject
             }
         }
     }
-    public void loseHP(int loss)
+
+    public void LoseHP(int loss)
+    {
+        photonView.RPC("LoseHPRPC", RpcTarget.All, loss);
+        if (hp <= 0)
+        {
+            gameManager.KillPlayer();
+        }
+
+    }
+    [PunRPC]
+    public void LoseHPRPC(int loss)
     {
         hp -= loss;
         Vector3 healthBarReduced = new Vector3(healthBar.transform.localScale.x * hp/maxHp, 1, 1);
         healthBar.transform.localScale = healthBarReduced;
-        CheckIfDead();
+        if (hp <= 0)
+        {
+            gameManager.ReducePlayers(playerName);
+        }
     }
+
 
     protected override void OnCantMove<T>(T component)
     {
