@@ -5,37 +5,30 @@ using UnityEngine;
 using Photon;
 using Photon.Pun;
 
-public abstract class MovingObject : MonoBehaviour
+public class ProjectileController : MonoBehaviour
 {
     public float moveTime = 1f;
+    private int spellDamage;
     public LayerMask blockingLayer;
 
     private BoxCollider2D boxCollider;
     private Rigidbody2D rb2D;
     private float inverseMoveTime;
-
-    private bool isMoving;
-
-    
+  
     // Start is called before the first frame update
-    protected virtual void Start()
+    void Start()
     {
         boxCollider = GetComponent<BoxCollider2D>();
         rb2D = GetComponent<Rigidbody2D>();
         inverseMoveTime = 1f / moveTime;
-        isMoving = false;
-
-
     }
 
-    protected bool Move (int xDir, int yDir, out RaycastHit2D hit)
+    bool Move (int xDir, int yDir, out RaycastHit2D hit)
     {
        
             
         Vector2 start = transform.position;
         Vector2 end = start + new Vector2(xDir, yDir);
-        Debug.Log(start);
-        Debug.Log(end);
 
         boxCollider.enabled = false;
         hit = Physics2D.Linecast(start, end, blockingLayer);
@@ -43,31 +36,12 @@ public abstract class MovingObject : MonoBehaviour
             
         if (hit.transform == null)
         {
-            if (!isMoving)
-            {
-                isMoving = true;
-                Debug.Log("isMoving");
-                //transform.position = end;
-                //return true;
-
-                StartCoroutine(SmoothMovement(end));
-                return true;
-            }
-            else{
-                Debug.Log("cant move");
-            }
-
-
-            return false;
+            StartCoroutine(SmoothMovement(end));
         }
-        Debug.Log("----");
         return false;
-    
-
-
     }
 
-    protected virtual void AttemptMove (int xDir, int yDir)
+    void AttemptMove (int xDir, int yDir)
     {
         RaycastHit2D hit;
         bool canMove = Move(xDir, yDir, out hit);
@@ -76,13 +50,8 @@ public abstract class MovingObject : MonoBehaviour
         {
             return;
         }
-
-        //T hitComponent = hit.transform.GetComponent<T>();
-
-        //if (!canMove && hitComponent != null)
-        //    OnCantMove(hitComponent);
     }
-    protected IEnumerator SmoothMovement(Vector3 end)
+    IEnumerator SmoothMovement(Vector3 end)
     {
         float elapsedTime = 0;
         Vector3 startingPos = transform.position;
@@ -103,11 +72,20 @@ public abstract class MovingObject : MonoBehaviour
         //     sqrRemainingDistance = (transform.position - end).sqrMagnitude;
         //     yield return null;
         // }
-        isMoving = false;
     }
 
-    protected abstract void OnCantMove<T>(T component)
-        where T : Component; 
+    public void Shoot(int startTime, int endTime, Vector3 displacement, int damage, int duration)
+    {
+        spellDamage = damage;
+        transform.position = transform.position + displacement;
+        int deletionTime = endTime - startTime;
+        StartCoroutine(Waiting(duration));
 
+    }
+    IEnumerator Waiting(int duration) {
+        print("Waiting...");
+        yield return new WaitForSeconds(duration);
+        Destroy(gameObject);
+    }
     
 }
