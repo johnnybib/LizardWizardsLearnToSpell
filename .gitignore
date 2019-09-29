@@ -36,4 +36,6 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+Assets/StreamingAssets/build_info.txt
+Assets/StreamingAssets/build_info.txt
 build_info.txt

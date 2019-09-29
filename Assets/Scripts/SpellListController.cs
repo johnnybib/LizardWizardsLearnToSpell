@@ -21,9 +21,10 @@ public class SpellListController : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        spellDict.Add("potato", "elemental");
-        spellDict.Add("djas'sa's wrath", "dark");
+        //spellDict.Add("potato", "elemental");
+        //spellDict.Add("djas'sa's wrath", "dark");
         spellDict.Add("smite", "holy");
+        spellDict.Add("save the amazon", "elemental");
     }
     void Start()
     {
