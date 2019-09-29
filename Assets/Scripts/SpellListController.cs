@@ -11,13 +11,21 @@ public class SpellListController : MonoBehaviour
     public Sprite holy;
     public Sprite dark;
 
-    string[] available_spells = {"one", "two", "expand dong", "the quick brown fox jumps over the lazy dog"};
-    
+    public Dictionary<string,string> spellDict = new Dictionary<string,string>();
+
+    public int maxSpells;
+    private int numSpells = 0;
+    public string[] availableSpells;
 
     // Start is called before the first frame update
     void Start()
     {
-      DrawSpellList();
+        spellDict.Add("potato", "elemental");
+        spellDict.Add("Djas'sa's Wrath", "dark");
+        spellDict.Add("Smite", "holy");
+
+        availableSpells = new string[maxSpells];
+        DrawSpellList();
     }
 
     // Update is called once per frame
@@ -33,12 +41,38 @@ public class SpellListController : MonoBehaviour
           GameObject.Destroy(child.gameObject);
         }
 
-        for (int i = 0; i < available_spells.Length; i++)
+        for (int i = 0; i < numSpells; i++)
         {
+            string school = "";
+            spellDict.TryGetValue(availableSpells[i], out school);
             GameObject obj = Instantiate(listItem, this.transform);
             obj.transform.localPosition = new Vector3(20, -20 - (20 + 100*obj.transform.localScale.y)*i, 0);
-            obj.GetComponentInChildren<Text>().text = available_spells[i];
-            obj.GetComponentsInChildren<Image>()[1].sprite = holy;
+            obj.GetComponentInChildren<Text>().text = availableSpells[i];
+
+            if (school == "holy")
+              obj.GetComponentsInChildren<Image>()[1].sprite = holy;
+            if (school == "dark")
+              obj.GetComponentsInChildren<Image>()[1].sprite = dark;
+            if (school == "elemental")
+              obj.GetComponentsInChildren<Image>()[1].sprite = elemental;
         }
+    }
+
+    public bool AddSpell(string spellName)
+    {
+        if (numSpells < maxSpells)
+        {
+            availableSpells[numSpells] = spellName;
+            numSpells += 1;
+            DrawSpellList();
+            return true;
+        }
+        return false;
+    }
+
+    public string RandomScroll()
+    {
+        int i = Random.Range(0, spellDict.Count);
+        return new List<string>(spellDict.Keys)[i];
     }
 }

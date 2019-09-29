@@ -7,7 +7,7 @@ using Photon.Pun;
 
 public abstract class MovingObject : MonoBehaviour
 {
-    public float moveTime = 1f;
+    public float moveTime = 0.1f;
     public LayerMask blockingLayer;
 
     private BoxCollider2D boxCollider;
@@ -34,8 +34,8 @@ public abstract class MovingObject : MonoBehaviour
             
         Vector2 start = transform.position;
         Vector2 end = start + new Vector2(xDir, yDir);
-        Debug.Log(start);
-        Debug.Log(end);
+        //Debug.Log(start);
+        //Debug.Log(end);
 
         boxCollider.enabled = false;
         hit = Physics2D.Linecast(start, end, blockingLayer);
@@ -93,7 +93,7 @@ public abstract class MovingObject : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
         transform.position = end;
-
+        
         // float sqrRemainingDistance = (transform.position - end).sqrMagnitude;
 
         // while (sqrRemainingDistance > float.Epsilon)

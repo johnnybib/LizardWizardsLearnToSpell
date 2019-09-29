@@ -10,9 +10,9 @@ public class BoardManager : MonoBehaviour
 
     public int columns = 10;
     public int rows = 10;
-    public GameObject floorTiles;
+    public GameObject[] floorTiles;
     public GameObject wallTiles;
-    public GameObject outerWallTiles;
+    public GameObject[] outerWallTiles;
 
     private Transform boardHolder;
     private List<Vector3> gridPositions = new List<Vector3>();
@@ -37,10 +37,10 @@ public class BoardManager : MonoBehaviour
         {
             for(int y = -1; y < rows + 1; y++)
             {
-                GameObject toInstantiate = floorTiles;
+                GameObject toInstantiate = floorTiles[Random.Range(0, floorTiles.Length)];
 
                 if (x == -1 || x == columns || y == -1 || y == rows)
-                    toInstantiate = outerWallTiles;
+                    toInstantiate = outerWallTiles[Random.Range(0, outerWallTiles.Length)];
                 GameObject instance = Instantiate(toInstantiate, new Vector3(x, y, 0f), Quaternion.identity) as GameObject;
                 instance.transform.SetParent(boardHolder);
                 
@@ -48,6 +48,7 @@ public class BoardManager : MonoBehaviour
         }
 
     }
+
 
     public void SetupScene()
     {
