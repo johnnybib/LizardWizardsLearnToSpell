@@ -74,15 +74,13 @@ public class ProjectileController : MonoBehaviour
         // }
     }
 
-    public void Shoot(int startTime, int endTime, Vector3 displacement, int damage, int duration)
+    public void Shoot(int startTime, int endTime, Vector3 displacement, int damage, float duration, int maxStart, int maxEnd)
     {
         spellDamage = damage;
         transform.position = transform.position + displacement;
-        int deletionTime = endTime - startTime;
-        StartCoroutine(Waiting(duration));
-
+        StartCoroutine(Waiting(duration - duration/(float) (maxStart + 1) * (float) startTime));
     }
-    IEnumerator Waiting(int duration) {
+    IEnumerator Waiting(float duration) {
         print("Waiting...");
         yield return new WaitForSeconds(duration);
         Destroy(gameObject);
