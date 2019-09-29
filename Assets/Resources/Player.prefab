@@ -350,7 +350,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   ObservedComponents:
   - {fileID: 4149858460684383359}
-  viewIdField: 0
+  viewIdField: 1
   InstantiationId: 1
   isRuntimeInstantiated: 0
 --- !u!114 &4149858460684383359
@@ -505,8 +505,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectiles:
   - {fileID: 6405361623961372732, guid: 8b75ba24ccc05674a91b32e5992a6913, type: 3}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 3210983320746448696, guid: 26a544f0c364ca44ea8ef54e7c27ee46, type: 3}
+  - {fileID: 2207531825043001043, guid: d231354cf746229498c7f17e1f1175d2, type: 3}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
