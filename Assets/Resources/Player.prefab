@@ -482,6 +482,11 @@ MonoBehaviour:
   - Fireball
   - firebolt
   - righteous-flare
+  - bigsnow
+  - lightningcloud
+  - righteous-pellet
+  - demon-fire
+  - air-blast
   sfx:
   - {fileID: 8300000, guid: 408bfcbb94d40264c81fcb6c60326c9b, type: 3}
 --- !u!114 &8242986299578362754
