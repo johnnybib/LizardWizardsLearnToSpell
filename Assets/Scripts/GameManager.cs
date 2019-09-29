@@ -156,14 +156,14 @@ namespace Photon.Pun.Demo.PunBasics
                     }
                 }
                 StartCoroutine("Resettor");
-                
-
+            
             }
         }
 
         private IEnumerator Resettor()
         {
             yield return new WaitForSecondsRealtime(5);
+            PhotonNetwork.LeaveRoom();
             SceneManager.LoadScene("Launcher");
         }
 

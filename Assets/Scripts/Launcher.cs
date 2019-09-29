@@ -82,8 +82,10 @@ namespace Photon.Pun.Demo.PunBasics
 
             roomJoinUI.SetActive(false);
             buttonLoadArena.SetActive(false);
-
-            ConnectToPhoton();
+            if(!PhotonNetwork.IsConnected)
+            {
+                ConnectToPhoton();
+            }
             
             if (PhotonNetwork.IsConnected && testingMode)
             {
