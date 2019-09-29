@@ -19,7 +19,7 @@ public class WizardPlayer : MovingObject
 
     private string playerName = "";
     public GameObject healthBar;
-    private SpellListController spellList;
+    public SpellListController spellList;
     private SpellFunctions spellFunctions;
 
     private bool testingMode = false;
@@ -52,42 +52,45 @@ public class WizardPlayer : MovingObject
        
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if(other.gameObject.tag == "Scroll")
-        {
-            string spellName = other.gameObject.GetComponent<ScrollController>().spellName;
-            if (photonView.IsMine || testingMode)
-            {
-                Debug.Log(other.gameObject.GetComponent<ScrollController>().GetScrollID());
-                if (spellList.AddSpell (spellName))
-                {
+    // private void OnTriggerEnter2D(Collider2D other)
+    // {
+    //     if(other.gameObject.tag == "Scroll")
+    //     {
+    //         string spellName = other.gameObject.GetComponent<ScrollController>().spellName;
+    //         if (photonView.IsMine || testingMode)
+    //         {
+    //             Debug.Log(other.gameObject.GetComponent<ScrollController>().GetScrollID());
+    //             if (spellList.AddSpell (spellName))
+    //             {
 
-                    if(PhotonNetwork.IsMasterClient)
-                    {
-                        Debug.Log("Master");
-                        gameManager.DestroyScroll(other.gameObject.GetComponent<ScrollController>().GetScrollID());
-                        gameManager.AddScroll();
-                    }
-                    else
-                    {
-                        Debug.Log("Not master");
-                        photonView.RPC("MasterScrollPickup", RpcTarget.MasterClient, other.gameObject.GetComponent<ScrollController>().GetScrollID());
-                    }
+
                      
-                    audioSource.clip = sfx [1];
-                    audioSource.Play ();
-                }
-            }
-        }
+    //                 audioSource.clip = sfx [1];
+    //                 audioSource.Play ();
+    //             }
+    //         }
+    //     }
 
+    // }
+    public void ScrollPickup()
+    {
+        photonView.RPC("MasterScrollPickup", RpcTarget.MasterClient);
+        // if(PhotonNetwork.IsMasterClient)
+        // {
+        //     Debug.Log("Master");
+        //     gameManager.AddScroll();
+        // }
+        // else
+        // {
+        //     Debug.Log("Not master");
+            
+        // }
     }
 
     [PunRPC]
-    public void MasterScrollPickup(string scrollID)
+    public void MasterScrollPickup()
     {
         Debug.Log("Master pickup");
-        gameManager.DestroyScroll(scrollID);
         gameManager.AddScroll();
     }
 

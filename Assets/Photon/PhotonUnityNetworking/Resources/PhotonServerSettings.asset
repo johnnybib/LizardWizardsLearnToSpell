@@ -39,4 +39,6 @@ MonoBehaviour:
   - RotateSpriteRPC
   - MasterDestroyScroll
   - MasterScrollPickup
+  - DestroySelfRPC
+  - SetSpellNameRPC
   DisableAutoOpenWizard: 1

@@ -60,7 +60,7 @@ public abstract class MovingObject : MonoBehaviour
 
             return false;
         }
-        Debug.Log("----");
+        // Debug.Log("----");
         return false;
     
 

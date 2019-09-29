@@ -55,7 +55,7 @@ namespace Photon.Pun.Demo.PunBasics
         public GameObject winUI;
         public Text winText;
 
-        public List<GameObject> scrolls;
+
 
         // Start Method
         void Start()
@@ -169,26 +169,12 @@ namespace Photon.Pun.Demo.PunBasics
                 y = Random.Range(0, boardScript.rows);
                 position = new Vector3(x, y, 0);
             }
-            GameObject scroll = PhotonNetwork.InstantiateSceneObject("Scroll", position, Quaternion.identity, 0);
-            scroll.GetComponent<ScrollController>().spellName = spellList.RandomScroll();
-            scrolls.Add(scroll);
+           
+
+            GameObject scroll = PhotonNetwork.Instantiate("Scroll", position, Quaternion.identity, 0);
+            // scroll.GetComponent<ScrollController>().SetSpellName();
         }       
 
-        public void DestroyScroll(string scrollID)
-        {
-            Debug.Log("Master client: " + PhotonNetwork.IsMasterClient);
-            foreach(GameObject scroll in scrolls)
-            {
-                if(scroll != null)
-                {
-                    if(scroll.GetComponent<ScrollController>().GetScrollID().Equals(scrollID))
-                    {
-                        Debug.Log("Deleting");
-                        PhotonNetwork.Destroy(scroll);
-                    }
-                }
-            }
 
-        }
     }
 }
