@@ -39,10 +39,6 @@ namespace Photon.Pun.Demo.PunBasics
 {
     public class GameManager : MonoBehaviourPunCallbacks
     {
-        public GameObject player1SpawnPosition;
-
-        public GameObject player2SpawnPosition;
-        public GameObject scrollPrefab;
 
         private GameObject player;
         private BoardManager boardScript;
@@ -58,6 +54,8 @@ namespace Photon.Pun.Demo.PunBasics
         public Text numberOfPlayersText;
         public GameObject winUI;
         public Text winText;
+
+
 
         // Start Method
         void Start()
@@ -87,8 +85,11 @@ namespace Photon.Pun.Demo.PunBasics
                     alivePlayers.Add(PhotonNetwork.PlayerList[i].NickName, true);
                 }
 
-                player = PhotonNetwork.Instantiate("Player", spawnPositions[playerNumber], player1SpawnPosition.transform.rotation, 0);
-                addScroll();
+                player = PhotonNetwork.Instantiate("Player", spawnPositions[playerNumber], Quaternion.identity, 0);
+                if(PhotonNetwork.IsMasterClient)
+                {
+                    AddScroll();
+                }
             }
         }
 
@@ -157,7 +158,7 @@ namespace Photon.Pun.Demo.PunBasics
             }
         }
 
-        public void addScroll()
+        public void AddScroll()
         {
             int x = Random.Range(0, boardScript.columns);
             int y = Random.Range(0, boardScript.rows);
@@ -168,9 +169,12 @@ namespace Photon.Pun.Demo.PunBasics
                 y = Random.Range(0, boardScript.rows);
                 position = new Vector3(x, y, 0);
             }
-            GameObject scroll = Instantiate(scrollPrefab, position, Quaternion.identity);
-            scroll.GetComponent<ScrollController>().spellName = spellList.RandomScroll();
-        }
-       
+           
+
+            GameObject scroll = PhotonNetwork.Instantiate("Scroll", position, Quaternion.identity, 0);
+            // scroll.GetComponent<ScrollController>().SetSpellName();
+        }       
+
+
     }
 }

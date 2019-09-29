@@ -60,6 +60,7 @@ namespace Photon.Pun.Demo.PunBasics
         public Text playerStatus;
         public Text connectionStatus;
         public Text numberOfPlayers;
+        public Text instruction;
 
 
         [Space(5)]
@@ -128,8 +129,11 @@ namespace Photon.Pun.Demo.PunBasics
         {
             if (PhotonNetwork.IsConnected)
             {
+                instruction.text = "Wait for others!";
                 playerName = playerNameField.text;
+                playerNameField.interactable = false;
                 roomName = roomNameField.text;
+                roomNameField.interactable = false;
                 PhotonNetwork.LocalPlayer.NickName = playerName;
                 Debug.Log("PhotonNetwork.IsConnected! | Trying to Create/Join Room " + roomNameField.text);
                 RoomOptions roomOptions = new RoomOptions();
@@ -157,8 +161,8 @@ namespace Photon.Pun.Demo.PunBasics
         {
             base.OnConnected();
 
-            connectionStatus.text = "Connected to Photon!";
-            connectionStatus.color = Color.green;
+            connectionStatus.text = "Connected!";
+            connectionStatus.color = new Color(1.0f, 1.0f, 1.0f);
             roomJoinUI.SetActive(true);
             buttonLoadArena.SetActive(false);
         }

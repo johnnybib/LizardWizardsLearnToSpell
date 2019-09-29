@@ -60,7 +60,7 @@ public class SpellListController : MonoBehaviour
        
         for (int i = 0; i < numSpells; i++)
         {
-            Debug.Log(availableSpells[i]);
+            // Debug.Log(availableSpells[i]);
             string school = "";
             
             spellDict.TryGetValue(availableSpells[i], out school);

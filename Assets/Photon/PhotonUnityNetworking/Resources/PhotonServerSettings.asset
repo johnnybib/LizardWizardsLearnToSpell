@@ -35,4 +35,10 @@ MonoBehaviour:
   - loseHPRPC
   - LoseHPRPC
   - ReducePlayers
+  - ScrollPickupRPC
+  - RotateSpriteRPC
+  - MasterDestroyScroll
+  - MasterScrollPickup
+  - DestroySelfRPC
+  - SetSpellNameRPC
   DisableAutoOpenWizard: 1

@@ -19,7 +19,7 @@ public class WizardPlayer : MovingObject
 
     private string playerName = "";
     public GameObject healthBar;
-    private SpellListController spellList;
+    public SpellListController spellList;
     private SpellFunctions spellFunctions;
 
     private bool testingMode = false;
@@ -52,22 +52,50 @@ public class WizardPlayer : MovingObject
        
     }
 
+    // private void OnTriggerEnter2D(Collider2D other)
+    // {
+    //     if(other.gameObject.tag == "Scroll")
+    //     {
+    //         string spellName = other.gameObject.GetComponent<ScrollController>().spellName;
+    //         if (photonView.IsMine || testingMode)
+    //         {
+    //             Debug.Log(other.gameObject.GetComponent<ScrollController>().GetScrollID());
+    //             if (spellList.AddSpell (spellName))
+    //             {
 
-    private void OnTriggerEnter2D(Collider2D other)
+
+                     
+    //                 audioSource.clip = sfx [1];
+    //                 audioSource.Play ();
+    //             }
+    //         }
+    //     }
+
+    // }
+    public void ScrollPickup()
     {
-        string spellName = other.gameObject.GetComponent<ScrollController>().spellName;
-        if (photonView.IsMine || testingMode)
-        {
-            if (spellList.AddSpell (spellName))
-            {
-
-                Destroy (other.gameObject);
-                gameManager.addScroll ();
-                audioSource.clip = sfx [1];
-                audioSource.Play ();
-            }
-        }
+        photonView.RPC("MasterScrollPickup", RpcTarget.MasterClient);
+        // if(PhotonNetwork.IsMasterClient)
+        // {
+        //     Debug.Log("Master");
+        //     gameManager.AddScroll();
+        // }
+        // else
+        // {
+        //     Debug.Log("Not master");
+            
+        // }
     }
+
+    [PunRPC]
+    public void MasterScrollPickup()
+    {
+        Debug.Log("Master pickup");
+        gameManager.AddScroll();
+    }
+
+
+    
 
     protected override void AttemptMove(int xDir, int yDir)
     {
@@ -89,7 +117,7 @@ public class WizardPlayer : MovingObject
                 audioSource.Play();
                 vertical = 1;
                 direction = 0;
-                this.gameObject.GetComponent<SpriteRenderer>().sprite = LookSprites[0];
+                photonView.RPC("RotateSpriteRPC", RpcTarget.All, 0);
             }
             if (Input.GetKeyDown(KeyCode.DownArrow))
             {
@@ -97,7 +125,7 @@ public class WizardPlayer : MovingObject
                 audioSource.Play ();
                 vertical = -1;
                 direction = 2;
-                this.gameObject.GetComponent<SpriteRenderer>().sprite = LookSprites[2];
+                photonView.RPC("RotateSpriteRPC", RpcTarget.All, 2);
             }
 
             if (Input.GetKeyDown(KeyCode.LeftArrow))
@@ -106,7 +134,7 @@ public class WizardPlayer : MovingObject
                 audioSource.Play ();
                 horizontal = -1;
                 direction = 3;
-                this.gameObject.GetComponent<SpriteRenderer>().sprite = LookSprites[3];
+                photonView.RPC("RotateSpriteRPC", RpcTarget.All, 3);
             }
                 
             if (Input.GetKeyDown(KeyCode.RightArrow))
@@ -115,13 +143,10 @@ public class WizardPlayer : MovingObject
                 audioSource.Play ();
                 horizontal = 1;
                 direction = 1;
-                this.gameObject.GetComponent<SpriteRenderer>().sprite = LookSprites[1];
+                photonView.RPC("RotateSpriteRPC", RpcTarget.All, 1);
             }
                 
-            //if(Input.GetKeyDown("a"))
-            //{
-            //    LoseHP(1);
-            //}
+
 
             //horizontal = (int)Input.GetAxisRaw("Horizontal");
             //vertical = (int)Input.GetAxisRaw("Vertical");
@@ -138,6 +163,12 @@ public class WizardPlayer : MovingObject
 
             }
         }
+    }
+
+    [PunRPC]
+    public void RotateSpriteRPC(int dir)
+    {
+        this.gameObject.GetComponent<SpriteRenderer>().sprite = LookSprites[dir];
     }
 
     public void LoseHP(int loss)
