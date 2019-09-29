@@ -10,6 +10,7 @@ public class MusicManager : MonoBehaviour
     private AudioSource lowHealthMusic;
     [SerializeField]
     private AudioSource powerupMusic;
+    private float scaleSpeed = 0.3f;
 
     private AudioSource asFrom;
     private AudioSource asTo;
@@ -24,6 +25,8 @@ public class MusicManager : MonoBehaviour
 
     void Start () {
         isTransitioning = false;
+        asFrom = lowHealthMusic;
+        asTo = levelMusic;
     }
 
 
@@ -32,8 +35,8 @@ public class MusicManager : MonoBehaviour
             isTransitioning = false;
         if (!isTransitioning)
             return;
-        asFrom.volume -= 0.1f * Time.deltaTime;
-        asTo.volume += 0.1f * Time.deltaTime;
+        asFrom.volume -= scaleSpeed * Time.deltaTime;
+        asTo.volume += scaleSpeed * Time.deltaTime;
 
     }
 

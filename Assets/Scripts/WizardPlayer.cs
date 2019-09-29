@@ -7,7 +7,9 @@ using Photon.Pun;
 
 public class WizardPlayer : MovingObject
 {
- 
+    public delegate void OnLoseHealth (bool start);
+    public static event OnLoseHealth HealthLost;
+
     public int maxHp = 3;
     public int hp = 3;
 
@@ -24,7 +26,9 @@ public class WizardPlayer : MovingObject
     
     int direction;
     public Sprite[] LookSprites;
-
+    [SerializeField]
+    private AudioClip [] sfx;
+    private AudioSource audioSource;
 
     // Start is called before the first frame update
     protected override void Start()
@@ -33,6 +37,7 @@ public class WizardPlayer : MovingObject
         gameManager = GameObject.Find("GameManager").GetComponent<Photon.Pun.Demo.PunBasics.GameManager>();
         spellFunctions = gameObject.GetComponentInParent<SpellFunctions> ();
         photonView = gameObject.GetComponent<PhotonView>();
+        audioSource = gameObject.GetComponent<AudioSource> ();
         if(!testingMode)
         {
             playerName = photonView.Owner.NickName;
@@ -58,7 +63,8 @@ public class WizardPlayer : MovingObject
 
                 Destroy (other.gameObject);
                 gameManager.addScroll ();
-
+                audioSource.clip = sfx [1];
+                audioSource.Play ();
             }
         }
     }
@@ -79,12 +85,16 @@ public class WizardPlayer : MovingObject
 
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
+                audioSource.clip = sfx [0];
+                audioSource.Play();
                 vertical = 1;
                 direction = 0;
                 this.gameObject.GetComponent<SpriteRenderer>().sprite = LookSprites[0];
             }
             if (Input.GetKeyDown(KeyCode.DownArrow))
             {
+                audioSource.clip = sfx [0];
+                audioSource.Play ();
                 vertical = -1;
                 direction = 2;
                 this.gameObject.GetComponent<SpriteRenderer>().sprite = LookSprites[2];
@@ -92,6 +102,8 @@ public class WizardPlayer : MovingObject
 
             if (Input.GetKeyDown(KeyCode.LeftArrow))
             {
+                audioSource.clip = sfx [0];
+                audioSource.Play ();
                 horizontal = -1;
                 direction = 3;
                 this.gameObject.GetComponent<SpriteRenderer>().sprite = LookSprites[3];
@@ -99,6 +111,8 @@ public class WizardPlayer : MovingObject
                 
             if (Input.GetKeyDown(KeyCode.RightArrow))
             {
+                audioSource.clip = sfx [0];
+                audioSource.Play ();
                 horizontal = 1;
                 direction = 1;
                 this.gameObject.GetComponent<SpriteRenderer>().sprite = LookSprites[1];
@@ -141,6 +155,9 @@ public class WizardPlayer : MovingObject
         hp -= loss;
         Vector3 healthBarReduced = new Vector3(healthBar.transform.localScale.x * hp/maxHp, healthBar.transform.localScale.y, 1);
         healthBar.transform.localScale = healthBarReduced;
+        HealthLost (photonView.IsMine || testingMode);
+        audioSource.clip = sfx [2];
+        audioSource.Play ();
         if (hp <= 0)
         {
             gameManager.ReducePlayers(playerName);
