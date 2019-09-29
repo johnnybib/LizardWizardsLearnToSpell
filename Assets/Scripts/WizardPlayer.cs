@@ -23,12 +23,17 @@ public class WizardPlayer : MovingObject
     private SpellFunctions spellFunctions;
 
     private bool testingMode = false;
-    
+
     int direction;
     public Sprite[] LookSprites;
     [SerializeField]
     private AudioClip [] sfx;
     private AudioSource audioSource;
+
+    private bool isIFrame;
+    [SerializeField]
+    private float iFrameTime = 1.2f;
+    private SpriteRenderer renderer;
 
     // Start is called before the first frame update
     protected override void Start()
@@ -38,18 +43,20 @@ public class WizardPlayer : MovingObject
         spellFunctions = gameObject.GetComponentInParent<SpellFunctions> ();
         photonView = gameObject.GetComponent<PhotonView>();
         audioSource = gameObject.GetComponent<AudioSource> ();
-        if(!testingMode)
+        renderer = gameObject.GetComponent<SpriteRenderer> ();
+        if (!testingMode)
         {
             playerName = photonView.Owner.NickName;
         }
         gameObject.name = playerName;
         direction = 0;
+        isIFrame = false;
         base.Start();
     }
 
     private void OnDisable()
     {
-       
+
     }
 
 
@@ -108,7 +115,7 @@ public class WizardPlayer : MovingObject
                 direction = 3;
                 this.gameObject.GetComponent<SpriteRenderer>().sprite = LookSprites[3];
             }
-                
+
             if (Input.GetKeyDown(KeyCode.RightArrow))
             {
                 audioSource.clip = sfx [0];
@@ -117,7 +124,7 @@ public class WizardPlayer : MovingObject
                 direction = 1;
                 this.gameObject.GetComponent<SpriteRenderer>().sprite = LookSprites[1];
             }
-                
+
             if(Input.GetKeyDown("a"))
             {
                 LoseHP(1);
@@ -130,7 +137,7 @@ public class WizardPlayer : MovingObject
             {
                 vertical = 0;
             }
-                    
+
 
             if (horizontal != 0 || vertical != 0)
             {
@@ -152,6 +159,8 @@ public class WizardPlayer : MovingObject
     [PunRPC]
     public void LoseHPRPC(int loss)
     {
+        if (isIFrame)
+            return;
         hp -= loss;
         Vector3 healthBarReduced = new Vector3(healthBar.transform.localScale.x * hp/maxHp, healthBar.transform.localScale.y, 1);
         healthBar.transform.localScale = healthBarReduced;
@@ -162,12 +171,38 @@ public class WizardPlayer : MovingObject
         {
             gameManager.ReducePlayers(playerName);
         }
+
+        StartCoroutine (IFrameFlash());
     }
 
 
     protected override void OnCantMove<T>(T component)
     {
-        
+
+    }
+
+    // every 2 seconds perform the print()
+    private IEnumerator IFrameFlash ()
+    {
+        isIFrame = true;
+        float flashTime = iFrameTime/8f;
+        renderer.color = new Color (1f, 1f, 1f, 0f);
+        yield return new WaitForSeconds (flashTime);
+        renderer.color = new Color (1f, 1f, 1f, 1f);
+        yield return new WaitForSeconds (flashTime);
+        renderer.color = new Color (1f, 1f, 1f, 0f);
+        yield return new WaitForSeconds (flashTime);
+        renderer.color = new Color (1f, 1f, 1f, 1f);
+        yield return new WaitForSeconds (flashTime);
+        renderer.color = new Color (1f, 1f, 1f, 0f);
+        yield return new WaitForSeconds (flashTime);
+        renderer.color = new Color (1f, 1f, 1f, 1f);
+        yield return new WaitForSeconds (flashTime);
+        renderer.color = new Color (1f, 1f, 1f, 0f);
+        yield return new WaitForSeconds (flashTime);
+        renderer.color = new Color (1f, 1f, 1f, 1f);
+        yield return new WaitForSeconds (flashTime);
+        isIFrame = false;
     }
 
     public SpellListController GetSpellList ()
