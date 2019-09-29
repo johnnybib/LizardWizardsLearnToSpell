@@ -30,6 +30,9 @@ namespace Photon.Pun.Demo.PunBasics
         [SerializeField]
         private AudioClip [] sfx;
         private AudioSource audioSource;
+        private SpriteRenderer renderer;
+        private bool isIFrame;
+        private float iFrameTime = 1.2f;
 
         // Start is called before the first frame update
         protected override void Start()
@@ -137,6 +140,10 @@ namespace Photon.Pun.Demo.PunBasics
                 if (horizontal != 0)
                 {
                     vertical = 0;
+                }
+                if (horizontal != 0 || vertical != 0)
+                {
+                    AttemptMove(horizontal, vertical);
                 }
             }
         }

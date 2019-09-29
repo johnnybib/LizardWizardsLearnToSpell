@@ -113,10 +113,14 @@ namespace Photon.Pun.Demo.PunBasics
         {
             if(other.gameObject.tag == "Player")
             {
+
                 WizardPlayer player = other.gameObject.GetComponent<WizardPlayer>();
-                if(player.GetPhotonView().IsMine)
+                if (photonView.Owner.UserId != player.GetPhotonView().Owner.UserId)
                 {
-                    player.LoseHP(spellDamage);
+                    if(player.GetPhotonView().IsMine)
+                    {
+                        player.LoseHP(spellDamage);
+                    }
                 }
             }
         }
