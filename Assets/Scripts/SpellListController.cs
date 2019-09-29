@@ -25,7 +25,7 @@ public class SpellListController : MonoBehaviour
         spellDict.Add("let there be light", "holy");
         spellDict.Add("save the amazon", "elemental");
         spellDict.Add("cone of frost", "elemental");
-        spellDict.Add("cone of fire", "elemental");
+        spellDict.Add("cone of flame", "elemental");
         spellDict.Add("fire blast", "elemental");
         spellDict.Add("it's going to rain", "holy");
         spellDict.Add("sear", "dark");
