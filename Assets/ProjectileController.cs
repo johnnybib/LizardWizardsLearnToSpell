@@ -18,12 +18,8 @@ public class ProjectileController : MonoBehaviour
         
     }
 
-    public void Shoot(int xmove, int ymove, int damage, int speed)
+    public void Shoot(int xstart, int ystart, int damage, int speed)
     {
         spellDamage = damage;
-        print(damage);
-        print(xmove);
-        print(ymove);
-        rigidBody.transform.Translate(1,1,1);
     }
 }

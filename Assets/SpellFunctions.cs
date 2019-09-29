@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class SpellFunctions : MonoBehaviour
 {
@@ -26,13 +27,13 @@ public class SpellFunctions : MonoBehaviour
     void Spell1()
     {
         int damage = 1;
-        int speed = 40;
+        int speed = 4;
         int prefabId = 0;
         string spellType = "projectile";
 
         Dictionary<int, int[]> projectileSettings = new Dictionary<int, int[]>()
         {
-            {1, new int[] {1, 2, 1, 1, damage, speed} },
+            {1, new int[] {1, 4, 1, 1, damage, speed} },
         };
         //Key Value: [startTime, endTime, xdisplacement, ydisplacement, damage, speed]
 
@@ -40,17 +41,28 @@ public class SpellFunctions : MonoBehaviour
 
         if (spellType == "projectile") //check if spell is projectile
         {
-            foreach(int item in projectileSettings.Keys)
-            {
-                int[] fullsettings = projectileSettings[item];
-                int[] settings = new int[lastSetting];
-                for (int i = 2; i < lastSetting; i++)
-                {
-                    settings[i-2] = fullsettings[i];
-                }
-                projectiles[prefabId].Shoot(settings[0], settings[1], settings[2], settings[3]);
+            int[] endTimes = new int[projectileSettings.Count];
+            for (int i = 0; i < projectileSettings.Count; i++) {
+                endTimes[i] = projectileSettings[i][1];
             }
+            for (int k = 0; k < endTimes.Max(); k++)
+            {
+                foreach(int item in projectileSettings.Keys)
+                {
+                    if (k == projectileSettings[item][0]) {
+                        int[] fullsettings = projectileSettings[item];
+                        int[] settings = new int[lastSetting];
+                        for (int i = 2; i < lastSetting; i++)
+                        {
+                            settings[i-2] = fullsettings[i];
+                        }
+                        projectiles[prefabId].Shoot(settings[0], settings[1], settings[2], settings[3]);
+                    }
+                    else if (k == projectileSettings[item][1]) {
+                        Destroy(projectiles[prefabId]);
+                    }
+                }
+            }                    
         }
     }
-
 }
