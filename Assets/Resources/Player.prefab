@@ -383,7 +383,7 @@ MonoBehaviour:
   moveTime: 0.1
   blockingLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1024
   maxHp: 3
   hp: 3
   healthBar: {fileID: 4182491543153801881}

@@ -78,7 +78,9 @@ public class ProjectileController : MonoBehaviour
     {
         spellDamage = damage;
         transform.position = transform.position + displacement;
-        StartCoroutine(Waiting(duration - duration/(float) (maxStart + 1) * (float) startTime));
+        float waitTime = duration - duration/(float) (maxStart + 1) * (float) startTime;
+        waitTime = waitTime * ((float) endTime / (float) maxEnd);
+        StartCoroutine(Waiting(waitTime));
     }
     IEnumerator Waiting(float duration) {
         print("Waiting...");
