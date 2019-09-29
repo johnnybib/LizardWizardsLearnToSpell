@@ -8,10 +8,15 @@ public class SpellFunctions : MonoBehaviour
     private Vector2 playerPosition;
     private Rigidbody2D rigidBody; 
     public ProjectileController[] projectiles;
+
+    public AudioClip[] sfx;
+    private AudioSource audioSource;
+
     // Start is called before the first frame update
     void Start()
     {
         rigidBody = GetComponent<Rigidbody2D>();
+        audioSource = gameObject.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -77,6 +82,8 @@ public class SpellFunctions : MonoBehaviour
             }
             int maxEnd = endTimes.Max();
             int maxStart = startTimes.Max();
+            audioSource.clip = sfx[0];
+            audioSource.Play();
             StartCoroutine(ProjectileTiming(maxEnd, maxStart));
         }
         
