@@ -56,7 +56,7 @@ namespace Photon.Pun.Demo.PunBasics
                 XSelfAoeSpell(6, 4);
                 break;
             case "sonic boom":
-                LineSpell(7, 4);
+                LineSpell(7, 2);
                 break;
             }
 

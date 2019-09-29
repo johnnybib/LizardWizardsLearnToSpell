@@ -263,7 +263,7 @@ GameObject:
   - component: {fileID: 4584803486306142625}
   - component: {fileID: -422307458802520294}
   m_Layer: 8
-  m_Name: PlayerLight
+  m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -350,7 +350,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   ObservedComponents:
   - {fileID: 4149858460684383359}
-  viewIdField: 1
+  viewIdField: 0
   InstantiationId: 1
   isRuntimeInstantiated: 0
 --- !u!114 &4149858460684383359
