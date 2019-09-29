@@ -256,8 +256,10 @@ GameObject:
   - component: {fileID: 7692542102057149092}
   - component: {fileID: 4149858460684383359}
   - component: {fileID: 8682020223347496646}
+  - component: {fileID: -422307458802520294}
   - component: {fileID: 6015582524283292515}
   - component: {fileID: 3066326219618928946}
+  - component: {fileID: -2901835085808194229}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -379,7 +381,7 @@ MonoBehaviour:
   moveTime: 0.1
   blockingLayer:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 0
   maxHp: 3
   hp: 3
   healthBar: {fileID: 4182491543153801881}
@@ -388,6 +390,32 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 4c9c525ff10d94a45bac14282a9c2871, type: 3}
   - {fileID: 21300000, guid: 39e16676aafe3a24f957cfe1d1369cb0, type: 3}
   - {fileID: 21300000, guid: 04223b475b770574ca8a709e3edd5fa1, type: 3}
+--- !u!61 &-422307458802520294
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8801916396966188255}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!95 &6015582524283292515
 Animator:
   serializedVersion: 3
@@ -456,3 +484,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &-2901835085808194229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8801916396966188255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d83bea28839fde54dae01bf3e9d925b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectiles:
+  - {fileID: 6405361623961372732, guid: 8b75ba24ccc05674a91b32e5992a6913, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
