@@ -190,21 +190,20 @@ namespace Photon.Pun.Demo.PunBasics
             Color oldColor = renderer.color;
             renderer.color = new Color (1f, 1f, 1f, 0f);
             yield return new WaitForSeconds (flashTime);
-            renderer.color = new Color (1f, 1f, 1f, 1f);
+            renderer.color = oldColor;
             yield return new WaitForSeconds (flashTime);
             renderer.color = new Color (1f, 1f, 1f, 0f);
-            yield return new WaitForSeconds (flashTime);
-            renderer.color = new Color (1f, 1f, 1f, 1f);
-            yield return new WaitForSeconds (flashTime);
-            renderer.color = new Color (1f, 1f, 1f, 0f);
-            yield return new WaitForSeconds (flashTime);
-            renderer.color = new Color (1f, 1f, 1f, 1f);
-            yield return new WaitForSeconds (flashTime);
-            renderer.color = new Color (1f, 1f, 1f, 0f);
-            yield return new WaitForSeconds (flashTime);
-            renderer.color = new Color (1f, 1f, 1f, 1f);
             yield return new WaitForSeconds (flashTime);
             renderer.color = oldColor;
+            yield return new WaitForSeconds (flashTime);
+            renderer.color = new Color (1f, 1f, 1f, 0f);
+            yield return new WaitForSeconds (flashTime);
+            renderer.color = oldColor;
+            yield return new WaitForSeconds (flashTime);
+            renderer.color = new Color (1f, 1f, 1f, 0f);
+            yield return new WaitForSeconds (flashTime);
+            renderer.color = oldColor;
+            yield return new WaitForSeconds (flashTime);
             isIFrame = false;
         }
 
