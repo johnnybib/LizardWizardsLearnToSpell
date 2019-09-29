@@ -8,8 +8,8 @@ public class BoardManager : MonoBehaviour
 {
     // Start is called before the first frame update
 
-    public int columns = 10;
-    public int rows = 10;
+    public int columns = 11;
+    public int rows = 17;
     public GameObject[] floorTiles;
     public GameObject wallTiles;
     public GameObject[] outerWallTiles;
