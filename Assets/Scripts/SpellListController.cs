@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 public class SpellListController : MonoBehaviour
 {
@@ -15,16 +16,14 @@ public class SpellListController : MonoBehaviour
 
     public int maxSpells;
     private int numSpells = 0;
-    public string[] availableSpells;
+    public List<string> availableSpells = new List<string>();
 
     // Start is called before the first frame update
     void Awake()
     {
         spellDict.Add("potato", "elemental");
-        spellDict.Add("Djas'sa's Wrath", "dark");
-        spellDict.Add("Smite", "holy");
-
-        availableSpells = new string[maxSpells];
+        spellDict.Add("djas'sa's wrath", "dark");
+        spellDict.Add("smite", "holy");
     }
     void Start()
     {
@@ -35,6 +34,20 @@ public class SpellListController : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public string CheckSpell(string spell)
+    {
+        if (spellDict.TryGetValue (spell, out string temp))
+        {
+            if (availableSpells.Contains(spell))
+            {
+                RemoveSpell (spell);
+                return spell;
+            }
+            Debug.Log ("Player does not have scroll for spell");
+        }
+        return null;
     }
 
     public void DrawSpellList()
@@ -67,9 +80,28 @@ public class SpellListController : MonoBehaviour
     {
         if (numSpells < maxSpells)
         {
-            availableSpells[numSpells] = spellName;
+            availableSpells.Add(spellName);
             numSpells += 1;
             DrawSpellList();
+            return true;
+        }
+        return false;
+    }
+
+    public bool RemoveSpell (string spellName)
+    {
+        if (numSpells > 0)
+        {
+            for (int i = 0; i < numSpells; i++)
+            {
+                if (spellName.Equals (availableSpells [i]))
+                {
+                    availableSpells.RemoveAt (i);
+                    break;
+                }
+            }
+            numSpells -= 1;
+            DrawSpellList ();
             return true;
         }
         return false;
