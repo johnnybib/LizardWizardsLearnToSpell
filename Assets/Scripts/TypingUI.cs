@@ -2,24 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
-public class TypingUI : MonoBehaviour
+namespace Photon.Pun.Demo.PunBasics
 {
-    [SerializeField]
-    private Text wordText;
-
-    private void OnEnable () 
+    public class TypingUI : MonoBehaviour
     {
-        TypingController.WordUpdated += UpdateUI;
-    }
+        [SerializeField]
+        private Text wordText;
 
-    private void OnDisable () 
-    {
-        TypingController.WordUpdated -= UpdateUI;
-    }
+        private void OnEnable () 
+        {
+            TypingController.WordUpdated += UpdateUI;
+        }
 
-    void UpdateUI(string word) 
-    {
-        wordText.text = word;
+        private void OnDisable () 
+        {
+            TypingController.WordUpdated -= UpdateUI;
+        }
+
+        void UpdateUI(string word) 
+        {
+            wordText.text = word;
+        }
     }
 }
