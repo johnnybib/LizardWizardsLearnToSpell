@@ -49,6 +49,7 @@ public class BoardManager : MonoBehaviour
 
     }
 
+
     public void SetupScene()
     {
         boardSetup();

@@ -292,6 +292,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player1SpawnPosition: {fileID: 1855645463}
   player2SpawnPosition: {fileID: 882233297}
+  scrollPrefab: {fileID: 4203210207295642925, guid: a3de474f587618d61868af76295bd3bf,
+    type: 3}
 --- !u!4 &540772151
 Transform:
   m_ObjectHideFlags: 0
@@ -321,7 +323,7 @@ MonoBehaviour:
   columns: 10
   rows: 10
   floorTiles:
-  - {fileID: 726748917604433359, guid: 603ce5926a5a48e418500ee7a8cf6c60, type: 3}
+  - {fileID: 726748917604433359, guid: da2ba4ebf3cb37de59529f6e5765b19b, type: 3}
   - {fileID: 2767467805265057050, guid: 16507a0a0b97a424bbccd41b7c60b4c3, type: 3}
   - {fileID: 5505199962596787662, guid: efaf981507acb734da7d44654bc3dd63, type: 3}
   - {fileID: 7163410644991446042, guid: 953ebd024e64f0847ab33dd61d0b55b9, type: 3}
@@ -446,6 +448,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9111069072958907806, guid: dcc4c3b46c526a5b28070d87150dfb58,
+        type: 3}
+      propertyPath: allSpells.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9111069072958907806, guid: dcc4c3b46c526a5b28070d87150dfb58,
+        type: 3}
+      propertyPath: maxSpells
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dcc4c3b46c526a5b28070d87150dfb58, type: 3}
