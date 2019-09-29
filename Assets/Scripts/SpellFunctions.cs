@@ -15,14 +15,14 @@ public class SpellFunctions : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown("k"))
-        {
-            playerPosition = transform.position;
-            Spell1();
-        }
-    }
+    // void Update()
+    // {
+    //     // if (Input.GetKeyDown("k"))
+    //     // {
+    //     //     playerPosition = transform.position;
+    //     //     Spell1();
+    //     // }
+    // }
 
     public void FireSpell (string spellName)
     {

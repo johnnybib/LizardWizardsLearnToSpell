@@ -52,22 +52,47 @@ public class WizardPlayer : MovingObject
        
     }
 
-
     private void OnTriggerEnter2D(Collider2D other)
     {
-        string spellName = other.gameObject.GetComponent<ScrollController>().spellName;
-        if (photonView.IsMine || testingMode)
+        if(other.gameObject.tag == "Scroll")
         {
-            if (spellList.AddSpell (spellName))
+            string spellName = other.gameObject.GetComponent<ScrollController>().spellName;
+            if (photonView.IsMine || testingMode)
             {
+                Debug.Log(other.gameObject.GetComponent<ScrollController>().GetScrollID());
+                if (spellList.AddSpell (spellName))
+                {
 
-                Destroy (other.gameObject);
-                gameManager.addScroll ();
-                audioSource.clip = sfx [1];
-                audioSource.Play ();
+                    if(PhotonNetwork.IsMasterClient)
+                    {
+                        Debug.Log("Master");
+                        gameManager.DestroyScroll(other.gameObject.GetComponent<ScrollController>().GetScrollID());
+                        gameManager.AddScroll();
+                    }
+                    else
+                    {
+                        Debug.Log("Not master");
+                        photonView.RPC("MasterScrollPickup", RpcTarget.MasterClient, other.gameObject.GetComponent<ScrollController>().GetScrollID());
+                    }
+                     
+                    audioSource.clip = sfx [1];
+                    audioSource.Play ();
+                }
             }
         }
+
     }
+
+    [PunRPC]
+    public void MasterScrollPickup(string scrollID)
+    {
+        Debug.Log("Master pickup");
+        gameManager.DestroyScroll(scrollID);
+        gameManager.AddScroll();
+    }
+
+
+    
 
     protected override void AttemptMove(int xDir, int yDir)
     {
@@ -89,7 +114,7 @@ public class WizardPlayer : MovingObject
                 audioSource.Play();
                 vertical = 1;
                 direction = 0;
-                this.gameObject.GetComponent<SpriteRenderer>().sprite = LookSprites[0];
+                photonView.RPC("RotateSpriteRPC", RpcTarget.All, 0);
             }
             if (Input.GetKeyDown(KeyCode.DownArrow))
             {
@@ -97,7 +122,7 @@ public class WizardPlayer : MovingObject
                 audioSource.Play ();
                 vertical = -1;
                 direction = 2;
-                this.gameObject.GetComponent<SpriteRenderer>().sprite = LookSprites[2];
+                photonView.RPC("RotateSpriteRPC", RpcTarget.All, 2);
             }
 
             if (Input.GetKeyDown(KeyCode.LeftArrow))
@@ -106,7 +131,7 @@ public class WizardPlayer : MovingObject
                 audioSource.Play ();
                 horizontal = -1;
                 direction = 3;
-                this.gameObject.GetComponent<SpriteRenderer>().sprite = LookSprites[3];
+                photonView.RPC("RotateSpriteRPC", RpcTarget.All, 3);
             }
                 
             if (Input.GetKeyDown(KeyCode.RightArrow))
@@ -115,13 +140,13 @@ public class WizardPlayer : MovingObject
                 audioSource.Play ();
                 horizontal = 1;
                 direction = 1;
-                this.gameObject.GetComponent<SpriteRenderer>().sprite = LookSprites[1];
+                photonView.RPC("RotateSpriteRPC", RpcTarget.All, 1);
             }
                 
-            if(Input.GetKeyDown("a"))
-            {
-                LoseHP(1);
-            }
+            // if(Input.GetKeyDown("a"))
+            // {
+            //     LoseHP(1);
+            // }
 
             //horizontal = (int)Input.GetAxisRaw("Horizontal");
             //vertical = (int)Input.GetAxisRaw("Vertical");
@@ -138,6 +163,12 @@ public class WizardPlayer : MovingObject
 
             }
         }
+    }
+
+    [PunRPC]
+    public void RotateSpriteRPC(int dir)
+    {
+        this.gameObject.GetComponent<SpriteRenderer>().sprite = LookSprites[dir];
     }
 
     public void LoseHP(int loss)

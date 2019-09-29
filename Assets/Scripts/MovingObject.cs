@@ -46,7 +46,7 @@ public abstract class MovingObject : MonoBehaviour
             if (!isMoving)
             {
                 isMoving = true;
-                Debug.Log("isMoving");
+                // Debug.Log("isMoving");
                 //transform.position = end;
                 //return true;
 
