@@ -1,4 +1,4 @@
-# The Electric Share!
+# Lizard Wizards Learn to Spell!
 Team Spaghetti Yeti's GI Jam Fall 2019 Submission!
 
 ## Screenshots
