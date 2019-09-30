@@ -3,7 +3,7 @@ Team Spaghetti Yeti's GI Jam Fall 2019 Submission!
 
 ## Screenshots
 
-![Title](https://github.com/johnnybib/game-jam-fall-2019/blob/master/Screenshots/Title.png)
+![Title](https://github.com/johnnybib/game-jam-fall-2019/blob/master/Screenshots/Title.jpg)
 ![Gameplay1](https://github.com/johnnybib/game-jam-fall-2019/blob/master/Screenshots/Gameplay1.png)
 ![Gameplay2](https://github.com/johnnybib/game-jam-fall-2019/blob/master/Screenshots/Gameplay2.png)
 
