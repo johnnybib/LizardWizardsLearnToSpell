@@ -52,6 +52,10 @@ namespace Photon.Pun.Demo.PunBasics
             direction = 0;
             isIFrame = false;
 
+            object[] iData = photonView.InstantiationData;
+
+            renderer.color = new Color((float)iData[0]/255.0f, (float)iData[1]/255.0f, (float)iData[2]/255.0f);
+
             base.Start();
         }
 
@@ -132,10 +136,6 @@ namespace Photon.Pun.Demo.PunBasics
                     photonView.RPC("RotateSpriteRPC", RpcTarget.All, 1);
                 }
                     
-
-
-                //horizontal = (int)Input.GetAxisRaw("Horizontal");
-                //vertical = (int)Input.GetAxisRaw("Vertical");
 
                 if (horizontal != 0)
                 {

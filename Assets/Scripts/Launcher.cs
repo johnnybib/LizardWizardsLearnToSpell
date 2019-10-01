@@ -30,7 +30,7 @@
 
 using UnityEngine;
 using UnityEngine.UI;
-
+using System.Collections.Generic;
 using Photon.Pun;
 using Photon.Realtime;
 
@@ -61,13 +61,16 @@ namespace Photon.Pun.Demo.PunBasics
         public Text connectionStatus;
         public Text numberOfPlayers;
         public Text instruction;
+        
+        public Dropdown roomListDropDown;
 
 
         [Space(5)]
         public GameObject roomJoinUI;
         public GameObject buttonLoadArena;
         public GameObject buttonJoinRoom;
-
+        
+        public GameObject buttonHostRoom;
 
         private bool testingMode = false;
 
@@ -87,17 +90,17 @@ namespace Photon.Pun.Demo.PunBasics
                 ConnectToPhoton();
             }
             
-            if (PhotonNetwork.IsConnected && testingMode)
-            {
-                playerName = "Jimmy";
-                roomName = "test";
-                PhotonNetwork.LocalPlayer.NickName = playerName;
-                Debug.Log("PhotonNetwork.IsConnected! | Trying to Create/Join Room " + roomNameField.text);
-                RoomOptions roomOptions = new RoomOptions();
-                TypedLobby typedLobby = new TypedLobby(roomName, LobbyType.Default);
-                PhotonNetwork.JoinOrCreateRoom(roomName, roomOptions, typedLobby);
-                PhotonNetwork.LoadLevel("MainGame");
-            }
+            // if (PhotonNetwork.IsConnected && testingMode)
+            // {
+            //     playerName = "Jimmy";
+            //     roomName = "test";
+            //     PhotonNetwork.LocalPlayer.NickName = playerName;
+            //     Debug.Log("PhotonNetwork.IsConnected! | Trying to Create/Join Room " + roomNameField.text);
+            //     RoomOptions roomOptions = new RoomOptions();
+            //     TypedLobby typedLobby = new TypedLobby(roomName, LobbyType.Default);
+            //     PhotonNetwork.JoinOrCreateRoom(roomName, roomOptions, typedLobby);
+            //     PhotonNetwork.LoadLevel("MainGame");
+            // }
             playerStatus.text = "";
 
         }
@@ -106,6 +109,7 @@ namespace Photon.Pun.Demo.PunBasics
         {
             PhotonNetwork.AutomaticallySyncScene = true;
         }
+
 
         // Helper Methods
         public void SetPlayerName(string name)
@@ -169,6 +173,11 @@ namespace Photon.Pun.Demo.PunBasics
             buttonLoadArena.SetActive(false);
         }
 
+        // public override void OnConnectedToMaster()
+        // {
+        //     PhotonNetwork.JoinLobby();
+        // }
+
         public override void OnDisconnected(DisconnectCause cause)
         {
             isConnecting = false;
@@ -182,12 +191,15 @@ namespace Photon.Pun.Demo.PunBasics
             {
                 buttonLoadArena.SetActive(true);
                 buttonJoinRoom.SetActive(false);
+                // buttonHostRoom.SetActive(false);
                 playerStatus.text = "You are the Host";
                 UpdatePlayerCount();
 
             }
             else
             {
+                // buttonHostRoom.SetActive(false); 
+                buttonJoinRoom.SetActive(false);
                 playerStatus.text = "Joined Lobby";
                 UpdatePlayerCount();
             }
@@ -207,5 +219,18 @@ namespace Photon.Pun.Demo.PunBasics
         {
             numberOfPlayers.text = "Number of Players: " + PhotonNetwork.PlayerList.Length;
         }
+        
+        // public override void OnRoomListUpdate(System.Collections.Generic.List<RoomInfo> roomList)
+        // {
+        //     Debug.Log("Updating room list");
+        //     roomListDropDown.ClearOptions();
+        //     List<string> options = new List<string>();
+        //     foreach(RoomInfo room in roomList)
+        //     {
+        //         options.Add(room.Name + " - " + room.PlayerCount + "/" + room.MaxPlayers);
+        //     }
+        //     roomListDropDown.AddOptions(options);
+
+        // }
     }
 }
