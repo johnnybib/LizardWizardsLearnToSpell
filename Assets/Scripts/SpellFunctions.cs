@@ -49,7 +49,8 @@ namespace Photon.Pun.Demo.PunBasics
             case "sear":
                 SmallSelfAoeSpell(6, 0); //change to 6
                 break;
-            case "by mavis's grace, let there be light":
+            // case "by mavis's grace, let there be light":
+            case "mavis beacon's holy maelstrom of divinity":
                 LargeSelfAoeSpell(2, 4);
                 break;
             case "fear":

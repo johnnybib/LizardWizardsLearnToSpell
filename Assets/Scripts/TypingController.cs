@@ -33,6 +33,9 @@ namespace Photon.Pun.Demo.PunBasics
                 string input = Input.inputString;
                 if (input.Equals (""))
                     return;
+                if(Input.GetKey("up") || Input.GetKey("down") || Input.GetKey("left") || Input.GetKey("right"))
+                    return;
+                    
                 UpdateWord (input [0]);
             }
         }

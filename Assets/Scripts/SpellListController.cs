@@ -22,7 +22,7 @@ public class SpellListController : MonoBehaviour
     void Awake()
     {
         spellDict.Add("righteous flare", "holy");
-        spellDict.Add("by mavis's grace, let there be light", "holy");
+        spellDict.Add("mavis beacon's holy maelstrom of divinity", "holy");
         spellDict.Add("save the amazon", "elemental");
         spellDict.Add("cone of frost", "elemental");
         spellDict.Add("cone of flame", "elemental");
