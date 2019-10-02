@@ -80,13 +80,18 @@ namespace Photon.Pun.Demo.PunBasics
         // Start Method
         void Start()
         {
-            PlayerPrefs.DeleteAll();
-            Debug.Log("Connecting to Photon Network");
-
-            roomJoinUI.SetActive(false);
-            buttonLoadArena.SetActive(false);
+            if(PhotonNetwork.InRoom)
+            {
+                PhotonNetwork.LeaveRoom();
+            }
             if(!PhotonNetwork.IsConnected)
             {
+                PlayerPrefs.DeleteAll();
+                Debug.Log("Connecting to Photon Network");
+
+                roomJoinUI.SetActive(false);
+                buttonLoadArena.SetActive(false);
+
                 ConnectToPhoton();
             }
             

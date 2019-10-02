@@ -87,12 +87,12 @@ namespace Photon.Pun.Demo.PunBasics
             gameManager.AddScroll();
         }
 
-        protected override void AttemptMove(int xDir, int yDir)
-        {
-            base.AttemptMove(xDir, yDir);
-            RaycastHit2D hit;
+        // protected override void AttemptMove(int xDir, int yDir)
+        // {
+        //     base.AttemptMove(xDir, yDir);
+        //     RaycastHit2D hit;
 
-        }
+        // }
         // Update is called once per frame
         void Update()
         {
@@ -101,40 +101,33 @@ namespace Photon.Pun.Demo.PunBasics
                 int horizontal = 0;
                 int vertical = 0;
 
-                if (Input.GetKeyDown(KeyCode.UpArrow))
+                if (Input.GetKey(KeyCode.UpArrow))
                 {
-                    audioSource.clip = sfx [0];
-                    audioSource.Play();
                     vertical = 1;
                     direction = 0;
                     photonView.RPC("RotateSpriteRPC", RpcTarget.All, 0);
                 }
-                if (Input.GetKeyDown(KeyCode.DownArrow))
+                if (Input.GetKey(KeyCode.DownArrow))
                 {
-                    audioSource.clip = sfx [0];
-                    audioSource.Play ();
                     vertical = -1;
                     direction = 2;
                     photonView.RPC("RotateSpriteRPC", RpcTarget.All, 2);
                 }
 
-                if (Input.GetKeyDown(KeyCode.LeftArrow))
+                if (Input.GetKey(KeyCode.LeftArrow))
                 {
-                    audioSource.clip = sfx [0];
-                    audioSource.Play ();
                     horizontal = -1;
                     direction = 3;
                     photonView.RPC("RotateSpriteRPC", RpcTarget.All, 3);
                 }
                     
-                if (Input.GetKeyDown(KeyCode.RightArrow))
+                if (Input.GetKey(KeyCode.RightArrow))
                 {
-                    audioSource.clip = sfx [0];
-                    audioSource.Play ();
                     horizontal = 1;
                     direction = 1;
                     photonView.RPC("RotateSpriteRPC", RpcTarget.All, 1);
                 }
+
                     
 
                 if (horizontal != 0)
@@ -143,7 +136,8 @@ namespace Photon.Pun.Demo.PunBasics
                 }
                 if (horizontal != 0 || vertical != 0)
                 {
-                    AttemptMove(horizontal, vertical);
+                    AttemptMove(horizontal, vertical, sfx[0]);
+
                 }
             }
         }

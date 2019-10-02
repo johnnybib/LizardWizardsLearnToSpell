@@ -178,7 +178,8 @@ namespace Photon.Pun.Demo.PunBasics
         {
             yield return new WaitForSecondsRealtime(5);
             // PhotonNetwork.LeaveRoom();
-            PhotonNetwork.LoadLevel("Launcher");
+            PhotonNetwork.Disconnect();
+            SceneManager.LoadScene("MainMenu");
         }
 
         public void AddScroll()

@@ -7,7 +7,7 @@ using Photon.Pun;
 
 public abstract class MovingObject : MonoBehaviour
 {
-    public float moveTime = 0.1f;
+    private float moveTime = 0.15f;
     public LayerMask blockingLayer;
 
     private BoxCollider2D boxCollider;
@@ -15,6 +15,8 @@ public abstract class MovingObject : MonoBehaviour
     private float inverseMoveTime;
 
     private bool isMoving;
+
+    private AudioSource audioSource;
 
     
     // Start is called before the first frame update
@@ -24,11 +26,10 @@ public abstract class MovingObject : MonoBehaviour
         rb2D = GetComponent<Rigidbody2D>();
         inverseMoveTime = 1f / moveTime;
         isMoving = false;
-
-
+        audioSource = gameObject.GetComponent<AudioSource> ();
     }
 
-    protected bool Move (int xDir, int yDir, out RaycastHit2D hit)
+    protected bool Move (int xDir, int yDir, out RaycastHit2D hit, AudioClip sfx)
     {
        
         Vector2 start = transform.position;
@@ -48,6 +49,8 @@ public abstract class MovingObject : MonoBehaviour
                 // Debug.Log("isMoving");
                 //transform.position = end;
                 //return true;
+                audioSource.clip = sfx;
+                audioSource.Play ();
 
                 StartCoroutine(SmoothMovement(end));
                 return true;
@@ -66,10 +69,10 @@ public abstract class MovingObject : MonoBehaviour
 
     }
 
-    protected virtual void AttemptMove (int xDir, int yDir)
+    protected virtual void AttemptMove (int xDir, int yDir, AudioClip sfx)
     {
         RaycastHit2D hit;
-        bool canMove = Move(xDir, yDir, out hit);
+        bool canMove = Move(xDir, yDir, out hit, sfx);
 
         if (hit.transform == null)
         {
@@ -83,6 +86,7 @@ public abstract class MovingObject : MonoBehaviour
     }
     protected IEnumerator SmoothMovement(Vector3 end)
     {
+        
         float elapsedTime = 0;
         Vector3 startingPos = transform.position;
         while (elapsedTime < moveTime)
@@ -92,6 +96,7 @@ public abstract class MovingObject : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
         transform.position = end;
+        
         
         // float sqrRemainingDistance = (transform.position - end).sqrMagnitude;
 

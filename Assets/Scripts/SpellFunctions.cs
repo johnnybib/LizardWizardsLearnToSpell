@@ -49,7 +49,8 @@ namespace Photon.Pun.Demo.PunBasics
             case "sear":
                 SmallSelfAoeSpell(6, 0); //change to 6
                 break;
-            case "let there be light":
+            // case "by mavis's grace, let there be light":
+            case "mavis beacon's holy maelstrom of divinity":
                 LargeSelfAoeSpell(2, 4);
                 break;
             case "fear":
@@ -231,6 +232,9 @@ namespace Photon.Pun.Demo.PunBasics
                 {2, new int[] {0, 1, 1, 0, damage} },
                 {3, new int[] {0, 1, -1, 0, damage} },
                 {4, new int[] {0, 1, 0, -1, damage} },
+                //Second Ring
+                {5, new int[] {0, 1, 0, 2, damage} },
+                {6, new int[] {0, 1, 0, -2, damage} },
             };
             //Key Value: [startTime, endTime, xdisplacement, ydisplacement, damage, duration]
             ProjectileTypeSpell(projectileSettings, damage, duration, prefabId, sfxId, rotate);
@@ -287,6 +291,9 @@ namespace Photon.Pun.Demo.PunBasics
                 {2, new int[] {0, 1, 1, -1, damage} },
                 {3, new int[] {0, 1, -1, -1, damage} },
                 {4, new int[] {0, 1, -1, 1, damage} },
+                //Second Ring
+                {5, new int[] {0, 1, 2, -2, damage} },
+                {6, new int[] {0, 1, -2, 2, damage} },
             };
             //Key Value: [startTime, endTime, xdisplacement, ydisplacement, damage, duration]
             ProjectileTypeSpell(projectileSettings, damage, duration, prefabId, sfxId, rotate);
