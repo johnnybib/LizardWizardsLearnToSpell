@@ -61,14 +61,74 @@ namespace Photon.Pun.Demo.PunBasics
             }
 
         }
+        
+        void ProjectileTypeSpell(Dictionary<int, int[]> projectileSettings, int damage, float duration, int prefabId, int sfxId, bool rotate)
+        {
+            int direction = this.GetComponentInParent<WizardPlayer>().direction;
+            Quaternion playerDirection = transform.rotation; //CHANGE THIS LATER
+            int[] endTimes = new int[projectileSettings.Count];
+            int[] startTimes = new int[projectileSettings.Count];
+            int j = 0;
+            foreach(int item in projectileSettings.Keys) {
+                endTimes[0] = projectileSettings[item][1];
+                startTimes[0] = projectileSettings[item][0];
+                j++;
+            }
+            int maxEnd = endTimes.Max();
+            int maxStart = startTimes.Max();
+            audioSource.clip = sfx[sfxId];
+            audioSource.Play();
+            StartCoroutine(ProjectileTiming());
+        
+            IEnumerator ProjectileTiming()
+            {
+                for (int k = 0; k < maxEnd + 1; k++)
+                {
+                foreach(int item in projectileSettings.Keys)
+                {
+                    if (k == projectileSettings[item][0]) {
+                        int[] settings = projectileSettings[item];
+                        Quaternion spriteRotation;
+                        Vector2 displacement = new Vector3(settings[2], settings[3], 0f);
+                        if (direction == 1)
+                        {
+                                displacement = -1*Vector2.Perpendicular(displacement);
+                                spriteRotation = playerDirection;
+                        }
+                        else if (direction == 2)
+                        {
+                                displacement = -1*displacement;
+                                spriteRotation = Quaternion.Euler(0f, 0f, -90f);
+                        }
+                        else if (direction == 3)
+                        {
+                                displacement = Vector2.Perpendicular(displacement);
+                                spriteRotation = Quaternion.Euler(0f, 0f, 180f);
+                        }
+                        else
+                        {
+                            spriteRotation = Quaternion.Euler(0f, 0f, 90f);
+                        }
+                        if (!rotate) {
+                            spriteRotation = playerDirection;
+                        }
+                        GameObject fireball = PhotonNetwork.Instantiate(projectileNames[prefabId],
+                            playerPosition,
+                            spriteRotation
+                            );
+                        fireball.GetComponent<ProjectileController>().Shoot(settings[0], settings[1], displacement, settings[4], duration, maxStart, maxEnd);
+                    }
+                }
+                yield return new WaitForSeconds(duration/maxEnd);
+                }
+            }
+        }
 
         void ConeSpell(int prefabId, int sfxId)
         {
             int damage = 1;
             float duration = 0.75f;
-            string spellType = "projectile";
-            Quaternion playerDirection = transform.rotation; //CHANGE THIS LATER
-            int direction = this.GetComponentInParent<WizardPlayer>().direction;
+            bool rotate = false;
             Dictionary<int, int[]> projectileSettings = new Dictionary<int, int[]>()
             {
                 {0, new int[] {0, 4, 0, 1, damage} },
@@ -82,68 +142,14 @@ namespace Photon.Pun.Demo.PunBasics
                 {8, new int[] {2, 4, -2, 3, damage} },
             };
             //Key Value: [startTime, endTime, xdisplacement, ydisplacement, damage, duration]
-
-            int lastSetting = projectileSettings[0].Length - 2;
-            
-            if (spellType == "projectile") //check if spell is projectile
-            {
-                int[] endTimes = new int[projectileSettings.Count];
-                int[] startTimes = new int[projectileSettings.Count];
-                int j = 0;
-                foreach(int item in projectileSettings.Keys) {
-                    endTimes[0] = projectileSettings[item][1];
-                    startTimes[0] = projectileSettings[item][0];
-                    j++;
-                }
-                int maxEnd = endTimes.Max();
-                int maxStart = startTimes.Max();
-                audioSource.clip = sfx[sfxId];
-                audioSource.Play();
-                StartCoroutine(ProjectileTiming(maxEnd, maxStart));
-            }
-            
-            IEnumerator ProjectileTiming(int maxEnd, int maxStart)
-            {
-                for (int k = 0; k < maxEnd + 1; k++)
-                {
-                foreach(int item in projectileSettings.Keys)
-                {
-                    if (k == projectileSettings[item][0]) {
-                        int[] settings = projectileSettings[item];
-                        GameObject fireball = PhotonNetwork.Instantiate(projectileNames[prefabId],
-                            playerPosition,
-                            playerDirection
-                            );
-                        Vector2 displacement = new Vector3(settings[2], settings[3], 0f);
-                        if (direction == 1)
-                        {
-                                displacement = -1*Vector2.Perpendicular(displacement);
-                        }
-                        if (direction == 2)
-                        {
-                                displacement = -1*displacement;
-                        }
-                        if (direction == 3)
-                        {
-                                displacement = Vector2.Perpendicular(displacement);
-                        }
-
-                        fireball.GetComponent<ProjectileController>().Shoot(settings[0], settings[1], displacement, settings[4], duration, maxStart, maxEnd);
-                    }
-                }
-                yield return new WaitForSeconds(duration/(maxStart + 1));
-                }  
-            }
+            ProjectileTypeSpell(projectileSettings, damage, duration, prefabId, sfxId, rotate);
         }
 
         void CircleSpell(int prefabId, int sfxId)
         {
             int damage = 1;
             float duration = 1.5f;
-            //int prefabId = 0;
-            string spellType = "projectile";
-            Quaternion playerDirection = transform.rotation; //CHANGE THIS LATER
-            int direction = this.GetComponentInParent<WizardPlayer>().direction;
+            bool rotate = false;
             Dictionary<int, int[]> projectileSettings = new Dictionary<int, int[]>()
             {
                 //Initial Ring
@@ -167,68 +173,14 @@ namespace Photon.Pun.Demo.PunBasics
 
             };
             //Key Value: [startTime, endTime, xdisplacement, ydisplacement, damage, duration]
-
-            int lastSetting = projectileSettings[0].Length - 2;
-            
-            if (spellType == "projectile") //check if spell is projectile
-            {
-                int[] endTimes = new int[projectileSettings.Count];
-                int[] startTimes = new int[projectileSettings.Count];
-                int j = 0;
-                foreach(int item in projectileSettings.Keys) {
-                    endTimes[0] = projectileSettings[item][1];
-                    startTimes[0] = projectileSettings[item][0];
-                    j++;
-                }
-                int maxEnd = endTimes.Max();
-                int maxStart = startTimes.Max();
-                audioSource.clip = sfx[sfxId];
-                audioSource.Play();
-                StartCoroutine(ProjectileTiming(maxEnd, maxStart));
-            }
-            
-            IEnumerator ProjectileTiming(int maxEnd, int maxStart)
-            {
-                for (int k = 0; k < maxEnd + 1; k++)
-                {
-                foreach(int item in projectileSettings.Keys)
-                {
-                    if (k == projectileSettings[item][0]) {
-                        int[] settings = projectileSettings[item];
-                        GameObject fireball = PhotonNetwork.Instantiate(projectileNames[prefabId],
-                            playerPosition,
-                            playerDirection
-                            );
-                        Vector2 displacement = new Vector3(settings[2], settings[3], 0f);
-                        if (direction == 1)
-                        {
-                                displacement = -1*Vector2.Perpendicular(displacement);
-                        }
-                        if (direction == 2)
-                        {
-                                displacement = -1*displacement;
-                        }
-                        if (direction == 3)
-                        {
-                                displacement = Vector2.Perpendicular(displacement);
-                        }
-
-                        fireball.GetComponent<ProjectileController>().Shoot(settings[0], settings[1], displacement, settings[4], duration, maxStart, maxEnd);
-                    }
-                }
-                yield return new WaitForSeconds(duration/(maxStart + 1));
-                }  
-            }
+            ProjectileTypeSpell(projectileSettings, damage, duration, prefabId, sfxId, rotate);
         }
 
         void LineSpell(int prefabId, int sfxId)
         {
             int damage = 1;
             float duration = 1f;
-            //int prefabId = 0;
-            string spellType = "projectile";
-            Quaternion playerDirection = transform.rotation; //CHANGE THIS LATER
-            int direction = this.GetComponentInParent<WizardPlayer>().direction;
+            bool rotate = true;
             Dictionary<int, int[]> projectileSettings = new Dictionary<int, int[]>()
             {
                 {0, new int[] {1, 1, 0, 1, damage} },
@@ -239,73 +191,14 @@ namespace Photon.Pun.Demo.PunBasics
                 {5, new int[] {6, 6, 0, 6, damage} },
             };
             //Key Value: [startTime, endTime, xdisplacement, ydisplacement, damage, duration]
-
-            int lastSetting = projectileSettings[0].Length - 2;
-            
-            if (spellType == "projectile") //check if spell is projectile
-            {
-                int[] endTimes = new int[projectileSettings.Count];
-                int[] startTimes = new int[projectileSettings.Count];
-                int j = 0;
-                foreach(int item in projectileSettings.Keys) {
-                    endTimes[0] = projectileSettings[item][1];
-                    startTimes[0] = projectileSettings[item][0];
-                    j++;
-                }
-                int maxEnd = endTimes.Max();
-                int maxStart = startTimes.Max();
-                audioSource.clip = sfx[sfxId];
-                audioSource.Play();
-                StartCoroutine(ProjectileTiming(maxEnd, maxStart));
-            }
-            
-            IEnumerator ProjectileTiming(int maxEnd, int maxStart)
-            {
-                for (int k = 0; k < maxEnd + 1; k++)
-                {
-                foreach(int item in projectileSettings.Keys)
-                {
-                    if (k == projectileSettings[item][0]) {
-                        int[] settings = projectileSettings[item];
-                        Vector2 displacement = new Vector3(settings[2], settings[3], 0f);
-                        Quaternion spriteRotation;
-                        if (direction == 1)
-                        {
-                                displacement = -1*Vector2.Perpendicular(displacement);
-                                spriteRotation = playerDirection;
-                        }
-                        else if (direction == 2)
-                        {
-                                displacement = -1*displacement;
-                                spriteRotation = Quaternion.Euler(0f, 0f, -90f);
-                        }
-                        else if (direction == 3)
-                        {
-                                displacement = Vector2.Perpendicular(displacement);
-                                spriteRotation = Quaternion.Euler(0f, 0f, 180f);
-                        }
-                        else
-                        {
-                            spriteRotation = Quaternion.Euler(0f, 0f, 90f);
-                        }
-                        GameObject fireball = PhotonNetwork.Instantiate(projectileNames[prefabId],
-                            playerPosition,
-                            spriteRotation
-                            );
-                        fireball.GetComponent<ProjectileController>().Shoot(settings[0], settings[1], displacement, settings[4], duration, maxStart, maxEnd);
-                    }
-                }
-                yield return new WaitForSeconds(duration/(maxStart + 1));
-                }  
-            }
+            ProjectileTypeSpell(projectileSettings, damage, duration, prefabId, sfxId, rotate);
         }
+
         void LingeringAoeSpell(int prefabId, int sfxId)
         {
             int damage = 1;
             float duration = 5f;
-            string spellType = "projectile";
-            Quaternion playerDirection = transform.rotation; //CHANGE THIS LATER
-            int direction = this.GetComponentInParent<WizardPlayer>().direction;
+            bool rotate = false;
             Dictionary<int, int[]> projectileSettings = new Dictionary<int, int[]>()
             {
                 {0, new int[] {0, 1, 0, 3, damage} },
@@ -319,64 +212,14 @@ namespace Photon.Pun.Demo.PunBasics
                 {8, new int[] {0, 1, -1, 5, damage} },
             };
             //Key Value: [startTime, endTime, xdisplacement, ydisplacement, damage, duration]
-
-            int lastSetting = projectileSettings[0].Length - 2;
-            
-            if (spellType == "projectile") //check if spell is projectile
-            {
-                int[] endTimes = new int[projectileSettings.Count];
-                int[] startTimes = new int[projectileSettings.Count];
-                int j = 0;
-                foreach(int item in projectileSettings.Keys) {
-                    endTimes[0] = projectileSettings[item][1];
-                    startTimes[0] = projectileSettings[item][0];
-                    j++;
-                }
-                int maxEnd = endTimes.Max();
-                int maxStart = startTimes.Max();
-                audioSource.clip = sfx[sfxId];
-                audioSource.Play();
-                StartCoroutine(ProjectileTiming(maxEnd, maxStart));
-            }
-            
-            IEnumerator ProjectileTiming(int maxEnd, int maxStart)
-            {
-                for (int k = 0; k < maxEnd + 1; k++)
-                {
-                foreach(int item in projectileSettings.Keys)
-                {
-                    if (k == projectileSettings[item][0]) {
-                        int[] settings = projectileSettings[item];
-                        GameObject fireball = PhotonNetwork.Instantiate(projectileNames[prefabId],
-                            playerPosition,
-                            playerDirection
-                            );
-                        Vector2 displacement = new Vector3(settings[2], settings[3], 0f);
-                        if (direction == 1)
-                        {
-                                displacement = -1*Vector2.Perpendicular(displacement);
-                        }
-                        if (direction == 2)
-                        {
-                                displacement = -1*displacement;
-                        }
-                        if (direction == 3)
-                        {
-                                displacement = Vector2.Perpendicular(displacement);
-                        }
-
-                        fireball.GetComponent<ProjectileController>().Shoot(settings[0], settings[1], displacement, settings[4], duration, maxStart, maxEnd);
-                    }
-                }
-                yield return new WaitForSeconds(duration/(maxStart + 1));
-                }  
-            }
+            ProjectileTypeSpell(projectileSettings, damage, duration, prefabId, sfxId, rotate);
         }
 
         void SmallSelfAoeSpell(int prefabId, int sfxId)
         {
             int damage = 1;
             float duration = 0.5f;
+            bool rotate = false;
             //int prefabId = 0;
             string spellType = "projectile";
             Quaternion playerDirection = transform.rotation; //CHANGE THIS LATER
@@ -390,68 +233,14 @@ namespace Photon.Pun.Demo.PunBasics
                 {4, new int[] {0, 1, 0, -1, damage} },
             };
             //Key Value: [startTime, endTime, xdisplacement, ydisplacement, damage, duration]
-
-            int lastSetting = projectileSettings[0].Length - 2;
-            
-            if (spellType == "projectile") //check if spell is projectile
-            {
-                int[] endTimes = new int[projectileSettings.Count];
-                int[] startTimes = new int[projectileSettings.Count];
-                int j = 0;
-                foreach(int item in projectileSettings.Keys) {
-                    endTimes[0] = projectileSettings[item][1];
-                    startTimes[0] = projectileSettings[item][0];
-                    j++;
-                }
-                int maxEnd = endTimes.Max();
-                int maxStart = startTimes.Max();
-                audioSource.clip = sfx[sfxId];
-                audioSource.Play();
-                StartCoroutine(ProjectileTiming(maxEnd, maxStart));
-            }
-            
-            IEnumerator ProjectileTiming(int maxEnd, int maxStart)
-            {
-                for (int k = 0; k < maxEnd + 1; k++)
-                {
-                foreach(int item in projectileSettings.Keys)
-                {
-                    if (k == projectileSettings[item][0]) {
-                        int[] settings = projectileSettings[item];
-                        GameObject fireball = PhotonNetwork.Instantiate(projectileNames[prefabId],
-                            playerPosition,
-                            playerDirection
-                            );
-                        Vector2 displacement = new Vector3(settings[2], settings[3], 0f);
-                        if (direction == 1)
-                        {
-                                displacement = -1*Vector2.Perpendicular(displacement);
-                        }
-                        if (direction == 2)
-                        {
-                                displacement = -1*displacement;
-                        }
-                        if (direction == 3)
-                        {
-                                displacement = Vector2.Perpendicular(displacement);
-                        }
-
-                        fireball.GetComponent<ProjectileController>().Shoot(settings[0], settings[1], displacement, settings[4], duration, maxStart, maxEnd);
-                    }
-                }
-                yield return new WaitForSeconds(duration/(maxStart + 1));
-                }  
-            }
+            ProjectileTypeSpell(projectileSettings, damage, duration, prefabId, sfxId, rotate);
         }
 
         void LargeSelfAoeSpell(int prefabId, int sfxId)
         {
             int damage = 1;
             float duration = 0.75f;
-            //int prefabId = 0;
-            string spellType = "projectile";
-            Quaternion playerDirection = transform.rotation; //CHANGE THIS LATER
-            int direction = this.GetComponentInParent<WizardPlayer>().direction;
+            bool rotate = false;
             Dictionary<int, int[]> projectileSettings = new Dictionary<int, int[]>()
             {
                 //Initial Ring
@@ -483,67 +272,14 @@ namespace Photon.Pun.Demo.PunBasics
                 {23, new int[] {0, 1, 0, 3, damage} },
             };
             //Key Value: [startTime, endTime, xdisplacement, ydisplacement, damage, duration]
-
-            int lastSetting = projectileSettings[0].Length - 2;
-            
-            if (spellType == "projectile") //check if spell is projectile
-            {
-                int[] endTimes = new int[projectileSettings.Count];
-                int[] startTimes = new int[projectileSettings.Count];
-                int j = 0;
-                foreach(int item in projectileSettings.Keys) {
-                    endTimes[0] = projectileSettings[item][1];
-                    startTimes[0] = projectileSettings[item][0];
-                    j++;
-                }
-                int maxEnd = endTimes.Max();
-                int maxStart = startTimes.Max();
-                audioSource.clip = sfx[sfxId];
-                audioSource.Play();
-                StartCoroutine(ProjectileTiming(maxEnd, maxStart));
-            }
-            
-            IEnumerator ProjectileTiming(int maxEnd, int maxStart)
-            {
-                for (int k = 0; k < maxEnd + 1; k++)
-                {
-                foreach(int item in projectileSettings.Keys)
-                {
-                    if (k == projectileSettings[item][0]) {
-                        int[] settings = projectileSettings[item];
-                        GameObject fireball = PhotonNetwork.Instantiate(projectileNames[prefabId],
-                            playerPosition,
-                            playerDirection
-                            );
-                        Vector2 displacement = new Vector3(settings[2], settings[3], 0f);
-                        if (direction == 1)
-                        {
-                                displacement = -1*Vector2.Perpendicular(displacement);
-                        }
-                        if (direction == 2)
-                        {
-                                displacement = -1*displacement;
-                        }
-                        if (direction == 3)
-                        {
-                                displacement = Vector2.Perpendicular(displacement);
-                        }
-
-                        fireball.GetComponent<ProjectileController>().Shoot(settings[0], settings[1], displacement, settings[4], duration, maxStart, maxEnd);
-                    }
-                }
-                yield return new WaitForSeconds(duration/(maxStart + 1));
-                }
-            }
+            ProjectileTypeSpell(projectileSettings, damage, duration, prefabId, sfxId, rotate);
         }
+
         void XSelfAoeSpell(int prefabId, int sfxId)
         {
             int damage = 1;
             float duration = 0.5f;
-            //int prefabId = 0;
-            string spellType = "projectile";
-            Quaternion playerDirection = transform.rotation; //CHANGE THIS LATER
-            int direction = this.GetComponentInParent<WizardPlayer>().direction;
+            bool rotate = false;
             Dictionary<int, int[]> projectileSettings = new Dictionary<int, int[]>()
             {
                 //Initial Ring
@@ -553,58 +289,7 @@ namespace Photon.Pun.Demo.PunBasics
                 {4, new int[] {0, 1, -1, 1, damage} },
             };
             //Key Value: [startTime, endTime, xdisplacement, ydisplacement, damage, duration]
-
-            int lastSetting = projectileSettings[0].Length - 2;
-            
-            if (spellType == "projectile") //check if spell is projectile
-            {
-                int[] endTimes = new int[projectileSettings.Count];
-                int[] startTimes = new int[projectileSettings.Count];
-                int j = 0;
-                foreach(int item in projectileSettings.Keys) {
-                    endTimes[0] = projectileSettings[item][1];
-                    startTimes[0] = projectileSettings[item][0];
-                    j++;
-                }
-                int maxEnd = endTimes.Max();
-                int maxStart = startTimes.Max();
-                audioSource.clip = sfx[sfxId];
-                audioSource.Play();
-                StartCoroutine(ProjectileTiming(maxEnd, maxStart));
-            }
-            
-            IEnumerator ProjectileTiming(int maxEnd, int maxStart)
-            {
-                for (int k = 0; k < maxEnd + 1; k++)
-                {
-                foreach(int item in projectileSettings.Keys)
-                {
-                    if (k == projectileSettings[item][0]) {
-                        int[] settings = projectileSettings[item];
-                        GameObject fireball = PhotonNetwork.Instantiate(projectileNames[prefabId],
-                            playerPosition,
-                            playerDirection
-                            );
-                        Vector2 displacement = new Vector3(settings[2], settings[3], 0f);
-                        if (direction == 1)
-                        {
-                                displacement = -1*Vector2.Perpendicular(displacement);
-                        }
-                        if (direction == 2)
-                        {
-                                displacement = -1*displacement;
-                        }
-                        if (direction == 3)
-                        {
-                                displacement = Vector2.Perpendicular(displacement);
-                        }
-
-                        fireball.GetComponent<ProjectileController>().Shoot(settings[0], settings[1], displacement, settings[4], duration, maxStart, maxEnd);
-                    }
-                }
-                yield return new WaitForSeconds(duration/(maxStart + 1));
-                }  
-            }
+            ProjectileTypeSpell(projectileSettings, damage, duration, prefabId, sfxId, rotate);
         }
 
     }
