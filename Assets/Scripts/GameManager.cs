@@ -177,7 +177,7 @@ namespace Photon.Pun.Demo.PunBasics
         private IEnumerator Resettor()
         {
             yield return new WaitForSecondsRealtime(5);
-            PhotonNetwork.LeaveRoom();
+            // PhotonNetwork.LeaveRoom();
             PhotonNetwork.LoadLevel("Launcher");
         }
 
