@@ -48,10 +48,21 @@ namespace Photon.Pun.Demo.PunBasics
 
         private int layerMask;
         private SpellListController spellList;
+        private Vector3[] spawnPositions = new Vector3[] { new Vector3(2, 2, 0), 
+                                                        new Vector3(2, 8, 0), 
+                                                        new Vector3(14, 8, 0), 
+                                                        new Vector3(14, 2, 0), 
+                                                        new Vector3(8, 1, 0), 
+                                                        new Vector3(8, 9, 0) };
 
-        private string[] playerPrefabNames;
+        private Color[] playerColors = new Color[] { new Color(255, 255, 255), //Normal
+                                                    new Color(107, 255, 125), //Green
+                                                    new Color(255, 222, 57), //Yellow
+                                                    new Color(255, 134, 134), //Red
+                                                    new Color(54, 255, 202), //Aqua
+                                                    new Color(135, 151, 180) //Dark
+                                                    };
 
-        private Vector3[] spawnPositions;
         private int numberOfPlayers;
         public Text numberOfPlayersText;
         public GameObject winUI;
@@ -75,8 +86,6 @@ namespace Photon.Pun.Demo.PunBasics
 
                 numberOfPlayers = PhotonNetwork.PlayerList.Length;
                 numberOfPlayersText.text = "Players Left: "  + numberOfPlayers;
-                spawnPositions = new Vector3[] { new Vector3(2, 2, 0), new Vector3(2, 8, 0), new Vector3(14, 8, 0), new Vector3(14, 2, 0), new Vector3(8, 1, 0), new Vector3(8, 9, 0) };
-                playerPrefabNames = new string[] { "PlayerLight", "PlayerGreen", "PlayerYellow", "PlayerRed", "PlayerAqua", "PlayerDark"};
                 alivePlayers = new Dictionary<string, bool>();
                 for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
                 {
@@ -87,8 +96,10 @@ namespace Photon.Pun.Demo.PunBasics
 
                     alivePlayers.Add(PhotonNetwork.PlayerList[i].NickName, true);
                 }
-
-                player = PhotonNetwork.Instantiate(playerPrefabNames[playerNumber], spawnPositions[playerNumber], Quaternion.identity, 0);
+                
+                object[] data = new object[] {playerColors[playerNumber].r, playerColors[playerNumber].g, playerColors[playerNumber].b};
+                player = PhotonNetwork.Instantiate("Player", spawnPositions[playerNumber], Quaternion.identity, 0, data);
+                
                 if(PhotonNetwork.IsMasterClient)
                 {
                     AddScroll();
@@ -121,11 +132,12 @@ namespace Photon.Pun.Demo.PunBasics
         public override void OnPlayerLeftRoom(Player other)
         {
             Debug.Log("OnPlayerLeftRoom() " + other.NickName); // seen when other disconnects
-            if (PhotonNetwork.IsMasterClient)
+
+            ReducePlayers(other.NickName);
+            if (numberOfPlayers == 1)
             {
                 PhotonNetwork.LoadLevel("Launcher");
             }
-            ReducePlayers(other.NickName);
         }
 
         // Helper Methods

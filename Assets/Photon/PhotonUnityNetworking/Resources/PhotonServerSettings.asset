@@ -29,17 +29,13 @@ MonoBehaviour:
   EnableSupportLogger: 0
   RunInBackground: 1
   RpcList:
+  - DestroySelfRPC
   - DestroySpaceship
   - Fire
-  - RespawnSpaceship
-  - loseHPRPC
   - LoseHPRPC
-  - ReducePlayers
-  - ScrollPickupRPC
-  - RotateSpriteRPC
-  - MasterDestroyScroll
   - MasterScrollPickup
-  - DestroySelfRPC
-  - SetSpellNameRPC
+  - RespawnSpaceship
+  - RotateSpriteRPC
   - SetDamageRPC
+  - SetPlayerColorRPC
   DisableAutoOpenWizard: 1
