@@ -63,16 +63,6 @@ namespace Photon.Pun.Demo.PunBasics
         public void ScrollPickup()
         {
             photonView.RPC("MasterScrollPickup", RpcTarget.MasterClient);
-            // if(PhotonNetwork.IsMasterClient)
-            // {
-            //     Debug.Log("Master");
-            //     gameManager.AddScroll();
-            // }
-            // else
-            // {
-            //     Debug.Log("Not master");
-                
-            // }
         }
 
         private void OnDisable()

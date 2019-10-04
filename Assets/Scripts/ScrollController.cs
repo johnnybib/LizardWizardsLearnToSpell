@@ -26,12 +26,6 @@ namespace Photon.Pun.Demo.PunBasics
         {
 
         }
-
-        public string GetScrollID()
-        {
-            return scrollID;
-        }
-
         private void OnTriggerEnter2D(Collider2D other)
         {
             if(other.gameObject.tag == "Player")
@@ -42,25 +36,14 @@ namespace Photon.Pun.Demo.PunBasics
                     spellName = spellList.RandomScroll();
                     if(player.spellList.AddSpell(spellName))
                     {
-                        player.ScrollPickup();
-                        // PhotonNetwork.Destroy(this.gameObject);
                         photonView.RPC("DestroySelfRPC", RpcTarget.All);
+                        player.ScrollPickup();
                     }
                 }
             }
         }
 
-        // public void SetSpellName(string newSpellName)
-        // {
-        //     photonView.RPC("SetSpellNameRPC", RpcTarget.All, newSpellName);
-        // }
 
-        // [PunRPC]
-        // public void SetSpellNameRPC(string newSpellName)
-        // {
-        //     Debug.Log("Setting spell name " + newSpellName);
-        //     spellName = newSpellName; 
-        // }
 
         [PunRPC]
         private void DestroySelfRPC()
