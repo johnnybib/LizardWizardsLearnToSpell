@@ -48,6 +48,8 @@ namespace Photon.Pun.Demo.PunBasics
 
         private int layerMask;
         private SpellListController spellList;
+        // private int maxScrolls = 1;
+        // private int numScrolls = 0;
         private Vector3[] spawnPositions = new Vector3[] { new Vector3(2, 2, 0), 
                                                         new Vector3(2, 8, 0), 
                                                         new Vector3(14, 8, 0), 
@@ -184,6 +186,7 @@ namespace Photon.Pun.Demo.PunBasics
 
         public void AddScroll()
         {
+
             int x = Random.Range(0, boardScript.columns);
             int y = Random.Range(0, boardScript.rows);
             Vector3 position = new Vector3(x, y, 0);
@@ -193,10 +196,12 @@ namespace Photon.Pun.Demo.PunBasics
                 y = Random.Range(0, boardScript.rows);
                 position = new Vector3(x, y, 0);
             }
-           
+        
 
             GameObject scroll = PhotonNetwork.Instantiate("Scroll", position, Quaternion.identity, 0);
             // scroll.GetComponent<ScrollController>().SetSpellName();
+
+
         }       
 
 
